@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K.M.A² Intelligence | Gamified Showroom</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=2">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="game-theme">
+
+    <!-- KMA² Startup Sequence -->
+    <div id="startup-screen">
+        <div class="startup-content">
+            <img src="{{ url_for('static', filename='assets/KMA2 Silver Logo.jpeg') }}" alt="KMA² Logo" class="kma-logo">
+            <div class="startup-headers">
+                <h1 class="fade-text delay-0">K. M. A<sup>2</sup></h1>
+                <h2 class="fade-text delay-1" style="color:#D4AF37;">KMA<sup>2</sup> Signature Series</h2>
+                <h3 class="fade-text delay-2" style="color:#707070;">Advanced Car Price Prediction System</h3>
+            </div>
+        </div>
+        <div class="bottom-branding fade-text delay-4">
+            <div class="rotating-text" id="loading-msg" style="margin-bottom: 5px;">Initializing Prediction Engine...</div>
+            <div class="loading-bar-container">
+                <div class="loading-bar" id="progress-bar"></div>
+            </div>
+            <p id="powered-by-text" style="color:#4A90E2;">Powered by KMA<sup>2</sup> Technologies</p>
+            <p>Running on KMA<sup>2</sup> Intelligence Framework</p>
+        </div>
+    </div>
+
+    <!-- Gamified Showroom Dashboard -->
+    <div id="main-dashboard" style="display:none; opacity:0; transition: opacity 1s; flex-direction: column;">
+        
+        <!-- TOP HEADER -->
+        <header class="project-header">
+            <div class="header-left">
+                <img src="{{ url_for('static', filename='assets/KMA2 Silver Logo.jpeg') }}" alt="K. M. A² Logo" class="header-logo">
+                <div class="header-titles">
+                    <h1>Advanced Vehicle Pricing Intelligence System</h1>
+                    <h2>Powered by the K. M. A² Intelligence Framework</h2>
+                    <h3>K. M. A² Signature Series Project</h3>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="premium-btn signature-btn" onclick="openSignaturePopup()">
+                    👑 K. M. A² Signature Series
+                </button>
+                <button class="premium-btn settings-btn" onclick="openSettingsPopup()">
+                    ⚙ Settings
+                </button>
+            </div>
+        </header>
+        <div class="header-divider"></div>
+
+        <div class="dashboard-content">
+            <!-- Garage Sidebar -->
+            <nav class="garage-sidebar">
+                <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/KMA2 Silver Logo.jpeg') }}" alt="Logo" class="mini-logo">
+                <h2>GARAGE</h2>
+            </div>
+            <div class="search-container" style="padding: 15px 15px 5px 15px;">
+                <input type="text" id="vehicle-search" placeholder="Search brands or models..." style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: rgba(10,10,15,0.8); color: #FFF; outline: none; font-family: 'Rajdhani', sans-serif; font-size: 1rem;" onkeyup="searchVehicles()">
+            </div>
+            <div id="no-results-msg" style="display: none; padding: 15px; color: #A0A0A0; text-align: center; font-family: 'Rajdhani', sans-serif;">No vehicles found</div>
+            <div class="brand-list">
+                <!-- Favorites Section -->
+                <div class="category-group" id="cat-favorites">
+                    <div class="category-header" onclick="toggleCategory('cat-favorites')" style="color: #D4AF37;">
+                        ⭐ Favorite Vehicles
+                    </div>
+                    <div class="category-content">
+                        <div id="favorites-container" style="padding: 5px;">
+                            <div id="no-favorites-msg" style="color: #A0A0A0; font-size: 0.9rem; text-align: center; padding: 10px;">No favorite vehicles yet</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-group" id="cat-fuel">
+                    <div class="category-header" onclick="toggleCategory('cat-fuel')">Fuel Vehicles</div>
+                    <div class="category-content">
+                        
+                        <!-- Regular Vehicles -->
+                        <div class="brand-group" id="fuel-regular">
+                            <div class="brand-header" onclick="toggleBrand('fuel-regular')">
+                                Regular Vehicles
+                            </div>
+                            <div class="brand-content">
+                                <!-- Hyundai Brand Group -->
+                                <div class="brand-group" id="brand-hyundai">
+                                    <div class="brand-header" onclick="toggleBrand('brand-hyundai')">
+                                        <img src="{{ url_for('static', filename='assets/cars/hyundai/creta/hyundai_logo.jpg') }}" class="brand-icon" style="width:20px;height:20px;border-radius:0;">
+                                        Hyundai
+                                    </div>
+                                    <div class="brand-content">
+                                        <div class="brand-item active" onclick="selectCar('hyundai_creta', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Creta</span>
+                                            <span class="brand-type">SUV</span>
+                                        </div>
+                                        <div class="brand-item" onclick="selectCar('hyundai_venue', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Venue</span>
+                                            <span class="brand-type">SUV</span>
+                                        </div>
+                                        <div class="brand-item" onclick="selectCar('hyundai_verna', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Verna</span>
+                                            <span class="brand-type">Sedan</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Toyota Brand Group -->
+                                <div class="brand-group collapsed" id="brand-toyota">
+                                    <div class="brand-header" onclick="toggleBrand('brand-toyota')">
+                                        <img src="{{ url_for('static', filename='assets/cars/toyota/Camry/logo.jpeg') }}" class="brand-icon" style="width:20px;height:20px;border-radius:0;">
+                                        Toyota
+                                    </div>
+                                    <div class="brand-content">
+                                        <div class="brand-item" onclick="selectCar('toyota_camry', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Camry</span>
+                                            <span class="brand-type">Sedan</span>
+                                        </div>
+                                        <div class="brand-item" onclick="selectCar('toyota_fortuner', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Fortuner</span>
+                                            <span class="brand-type">SUV</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Honda Brand Group -->
+                                <div class="brand-group collapsed" id="brand-honda">
+                                    <div class="brand-header" onclick="toggleBrand('brand-honda')">
+                                        <img src="{{ url_for('static', filename='assets/cars/honda/City/logo.jpeg') }}" class="brand-icon" style="width:20px;height:20px;border-radius:0;">
+                                        Honda
+                                    </div>
+                                    <div class="brand-content">
+                                        <div class="brand-item" onclick="selectCar('honda_city', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">City</span>
+                                            <span class="brand-type">Sedan</span>
+                                        </div>
+                                        <div class="brand-item" onclick="selectCar('honda_elevate', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Elevate</span>
+                                            <span class="brand-type">SUV</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Premium Sports Vehicles -->
+                        <div class="brand-group collapsed" id="fuel-premium">
+                            <div class="brand-header" onclick="toggleBrand('fuel-premium')">
+                                Premium Sports Vehicles
+                            </div>
+                            <div class="brand-content">
+                                <!-- BMW Brand Group -->
+                                <div class="brand-group collapsed" id="brand-bmw">
+                                    <div class="brand-header" onclick="toggleBrand('brand-bmw')">
+                                        <img src="{{ url_for('static', filename='assets/cars/bmw/XM/logo.jpeg') }}" class="brand-icon" style="width:20px;height:20px;border-radius:0;">
+                                        BMW
+                                    </div>
+                                    <div class="brand-content">
+                                        <div class="brand-item" onclick="selectCar('bmw_xm', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">XM</span>
+                                            <span class="brand-type">SUV</span>
+                                        </div>
+                                        <div class="brand-item" onclick="selectCar('bmw_m5', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">M5 Competition</span>
+                                            <span class="brand-type">Sedan</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Audi Brand Group -->
+                                <div class="brand-group collapsed" id="brand-audi">
+                                    <div class="brand-header" onclick="toggleBrand('brand-audi')">
+                                        <img src="{{ url_for('static', filename='assets/cars/audi/A6/logo.jpeg') }}" class="brand-icon" style="width:20px;height:20px;border-radius:0;">
+                                        Audi
+                                    </div>
+                                    <div class="brand-content">
+                                        <div class="brand-item" onclick="selectCar('audi_a6', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">A6</span>
+                                            <span class="brand-type">Sedan</span>
+                                        </div>
+                                        <div class="brand-item" onclick="selectCar('audi_q7', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Q7</span>
+                                            <span class="brand-type">SUV</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Pagani Brand Group -->
+                                <div class="brand-group collapsed" id="brand-pagani">
+                                    <div class="brand-header" onclick="toggleBrand('brand-pagani')">
+                                        <img src="{{ url_for('static', filename='assets/cars/pagani/Huayra/logo.jpeg') }}" class="brand-icon" style="width:20px;height:20px;border-radius:0;">
+                                        Pagani
+                                    </div>
+                                    <div class="brand-content">
+                                        <div class="brand-item" onclick="selectCar('pagani_huayra', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Huayra</span>
+                                            <span class="brand-type">Hypercar</span>
+                                        </div>
+                                        <div class="brand-item" onclick="selectCar('pagani_utopia', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Utopia</span>
+                                            <span class="brand-type">Hypercar</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Imported Edition -->
+                        <div class="brand-group collapsed" id="fuel-imported">
+                            <div class="brand-header" onclick="toggleBrand('fuel-imported')">
+                                Imported Edition
+                            </div>
+                            <div class="brand-content">
+                                <!-- Nissan Brand Group -->
+                                <div class="brand-group collapsed" id="brand-nissan">
+                                    <div class="brand-header" onclick="toggleBrand('brand-nissan')">
+                                        <img src="{{ url_for('static', filename='assets/cars/nissan/GT-R R35/logo.jpeg') }}" class="brand-icon" style="width:20px;height:20px;border-radius:0;">
+                                        Nissan
+                                    </div>
+                                    <div class="brand-content">
+                                        <div class="brand-item" onclick="selectCar('nissan_gtr', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">GT-R R35</span>
+                                            <span class="brand-type">Sports</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- EV Vehicles (Future implementation) -->
+                <div class="category-group collapsed" id="cat-ev">
+                    <div class="category-header" onclick="toggleCategory('cat-ev')">EV Vehicles</div>
+                    <div class="category-content">
+                        
+                        <!-- Regular EV -->
+                        <div class="brand-group collapsed" id="ev-regular">
+                            <div class="brand-header" onclick="toggleBrand('ev-regular')">
+                                Regular EV
+                            </div>
+                            <div class="brand-content">
+                                <!-- Tesla Brand Group -->
+                                <div class="brand-group collapsed" id="brand-tesla">
+                                    <div class="brand-header" onclick="toggleBrand('brand-tesla')">
+                                        <img src="{{ url_for('static', filename='assets/cars/tesla/Model 3/logo.jpeg') }}" class="brand-icon" style="width:20px;height:20px;border-radius:0;">
+                                        Tesla
+                                    </div>
+                                    <div class="brand-content">
+                                        <div class="brand-item" onclick="selectCar('tesla_model3', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Model 3</span>
+                                            <span class="brand-type">EV</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- BYD Brand Group -->
+                                <div class="brand-group collapsed" id="brand-byd">
+                                    <div class="brand-header" onclick="toggleBrand('brand-byd')">
+                                        <img src="{{ url_for('static', filename='assets/cars/byd/Seal/logo.jpeg') }}" class="brand-icon" style="width:20px;height:20px;border-radius:0;">
+                                        BYD
+                                    </div>
+                                    <div class="brand-content">
+                                        <div class="brand-item" onclick="selectCar('byd_seal', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Seal</span>
+                                            <span class="brand-type">EV</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Premium Sports EV -->
+                        <div class="brand-group collapsed" id="ev-premium">
+                            <div class="brand-header" onclick="toggleBrand('ev-premium')">
+                                Premium Sports EV
+                            </div>
+                            <div class="brand-content">
+                                <!-- Porsche Brand Group -->
+                                <div class="brand-group collapsed" id="brand-porsche">
+                                    <div class="brand-header" onclick="toggleBrand('brand-porsche')">
+                                        <img src="{{ url_for('static', filename='assets/cars/porsche/Taycon Turbo S/logo.jpeg') }}" class="brand-icon" style="width:20px;height:20px;border-radius:0;">
+                                        Porsche
+                                    </div>
+                                    <div class="brand-content">
+                                        <div class="brand-item" onclick="selectCar('porsche_taycan', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Taycan Turbo S</span>
+                                            <span class="brand-type">EV</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Rimac Brand Group -->
+                                <div class="brand-group collapsed" id="brand-rimac">
+                                    <div class="brand-header" onclick="toggleBrand('brand-rimac')">
+                                        <img src="{{ url_for('static', filename='assets/cars/rimac/Nevera/logo.jpeg') }}" class="brand-icon" style="width:20px;height:20px;border-radius:0;">
+                                        Rimac
+                                    </div>
+                                    <div class="brand-content">
+                                        <div class="brand-item" onclick="selectCar('rimac_nevera', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Nevera</span>
+                                            <span class="brand-type">EV</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Imported Edition EV -->
+                        <div class="brand-group collapsed" id="ev-imported">
+                            <div class="brand-header" onclick="toggleBrand('ev-imported')">
+                                Imported Edition EV
+                            </div>
+                            <div class="brand-content">
+                                <!-- Lucid Brand Group -->
+                                <div class="brand-group collapsed" id="brand-lucid">
+                                    <div class="brand-header" onclick="toggleBrand('brand-lucid')">
+                                        <img src="{{ url_for('static', filename='assets/cars/lucid/Air Sapphire/logo.jpeg') }}" class="brand-icon" style="width:20px;height:20px;border-radius:0;">
+                                        Lucid
+                                    </div>
+                                    <div class="brand-content">
+                                        <div class="brand-item" onclick="selectCar('lucid_air', this)">
+                                            <span class="brand-name" style="font-size: 1rem;">Air Sapphire</span>
+                                            <span class="brand-type">EV</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 3D Stage -->
+        <main class="showroom-stage" id="stage-container">
+
+
+            <!-- Car Platform -->
+            <div class="car-platform" id="car-platform">
+                <div class="platform-glow"></div>
+                <img id="hero-car" src="{{ url_for('static', filename='assets/cars/hyundai/creta/creta_front.jpg') }}" alt="Vehicle">
+            </div>
+
+            <!-- View Selector Panel -->
+            <div class="view-selector" id="view-selector" style="display: flex;">
+                <button class="view-btn active" onclick="changeCarView('Front', this)">FRONT</button>
+                <button class="view-btn" onclick="changeCarView('Rear', this)">REAR</button>
+                <button class="view-btn" onclick="changeCarView('Left', this)">LEFT</button>
+                <button class="view-btn" onclick="changeCarView('Top', this)">TOP</button>
+                <button class="view-btn" onclick="changeCarView('Dashboard', this)">DASHBOARD</button>
+                <button class="view-btn" onclick="changeCarView('Cabin', this)">CABIN</button>
+            </div>
+
+            <!-- Bottom Control Panel -->
+            <div class="bottom-panel" style="justify-content: center; align-items: center; text-align: center;">
+                <div class="car-title-box">
+                    <h1 id="car-model-name">HYUNDAI CRETA</h1>
+                    <h3 id="car-brand-name">HYUNDAI // AUTOMATIC // PETROL</h3>
+                </div>
+            </div>
+            
+            <!-- Prediction Result Overlay -->
+            <div class="prediction-overlay" id="prediction-result-overlay" style="display:none;">
+                <h2 class="result-title">ESTIMATED VALUE</h2>
+                <div class="result-price" id="result-price">₹--</div>
+                <div class="result-details">
+                    <p>Range: <span id="result-range">--</span></p>
+                    <p>Confidence: <span id="result-conf">--</span></p>
+                </div>
+                
+                <div class="vehicle-summary" id="vehicle-summary" style="margin-top: 10px; text-align: left; background: rgba(10,10,15,0.8); border: 1px solid rgba(74, 144, 226, 0.3); padding: 10px 15px; border-radius: 8px; width: 80%; max-width: 350px; font-family: 'Rajdhani', sans-serif; font-size: 0.9rem;">
+                    <h3 style="color: #D4AF37; margin-bottom: 5px; font-size: 1rem; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 3px;">VEHICLE INFORMATION SUMMARY</h3>
+                    <p style="margin: 3px 0;"><span style="color: #A0A0A0;">Category:</span> <span id="summary-cat" style="color: #FFF;">--</span></p>
+                    <p style="margin: 3px 0;"><span style="color: #A0A0A0;">Subcategory:</span> <span id="summary-subcat" style="color: #FFF;">--</span></p>
+                    <p style="margin: 3px 0;"><span style="color: #A0A0A0;">Brand:</span> <span id="summary-brand" style="color: #FFF;">--</span></p>
+                    <p style="margin: 3px 0;"><span style="color: #A0A0A0;">Model:</span> <span id="summary-model" style="color: #FFF;">--</span></p>
+                    <p style="margin: 3px 0;"><span style="color: #A0A0A0;">Fuel Type:</span> <span id="summary-fuel" style="color: #FFF;">--</span></p>
+                    <p style="margin: 3px 0;"><span style="color: #A0A0A0;">Transmission:</span> <span id="summary-trans" style="color: #FFF;">--</span></p>
+                    <p style="margin: 3px 0;"><span style="color: #A0A0A0;">Year:</span> <span id="summary-year" style="color: #FFF;">--</span></p>
+                </div>
+
+                <button class="close-result-btn" style="margin-top: 15px; padding: 0.8rem 2rem; font-size: 0.9rem;" onclick="closePrediction()">RETURN TO VEHICLE VIEW</button>
+            </div>
+
+            <!-- Comparison Result Overlay -->
+            <div class="prediction-overlay" id="comparison-overlay" style="display:none; flex-direction: column; justify-content: flex-start; overflow-y: auto; align-items: center; padding: 1rem; z-index: 200;">
+                <h2 class="result-title" style="margin-bottom: 1rem; font-size: 1.5rem;">VEHICLE COMPARISON</h2>
+                
+                <!-- Selection Area -->
+                <div style="display: flex; gap: 15px; margin-bottom: 15px; width: 100%; max-width: 900px; justify-content: space-between; align-items: flex-end;">
+                    <div style="flex: 1; display: flex; flex-direction: column; gap: 5px;">
+                        <label style="color: #A0A0A0; font-family: 'Rajdhani', sans-serif; font-size: 0.9rem;">Select Vehicle 1</label>
+                        <select id="compare-v1" style="padding: 8px; background: rgba(10,10,15,0.9); border: 1px solid rgba(255,255,255,0.2); color: white; outline: none; font-family: 'Rajdhani', sans-serif; cursor: pointer;">
+                            <option value="">-- Select Vehicle --</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1; display: flex; flex-direction: column; gap: 5px;">
+                        <label style="color: #A0A0A0; font-family: 'Rajdhani', sans-serif; font-size: 0.9rem;">Select Vehicle 2</label>
+                        <select id="compare-v2" style="padding: 8px; background: rgba(10,10,15,0.9); border: 1px solid rgba(255,255,255,0.2); color: white; outline: none; font-family: 'Rajdhani', sans-serif; cursor: pointer;">
+                            <option value="">-- Select Vehicle --</option>
+                        </select>
+                    </div>
+                    <button class="predict-btn" onclick="runComparison()" style="width: auto; padding: 8px 25px; border: 1px solid #D4AF37; background: rgba(212,175,55,0.1); color: #D4AF37; height: 38px; font-size: 1rem;">COMPARE NOW</button>
+                </div>
+                
+                <div id="compare-error" style="color: #FF4A4A; display: none; margin-bottom: 10px; font-family: 'Rajdhani', sans-serif;">Please select two vehicles to compare.</div>
+
+                <!-- Comparison Table -->
+                <div id="comparison-results" style="display: none; width: 100%; max-width: 900px; background: rgba(10,10,15,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; overflow-x: auto; flex-grow: 1;">
+                    <table style="width: 100%; color: white; border-collapse: collapse; font-family: 'Rajdhani', sans-serif; min-width: 600px;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left; padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); color: #D4AF37; width: 30%;">SPECIFICATION</th>
+                                <th id="comp-h1" style="text-align: center; padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); width: 35%; color: #FFF; font-size: 1.1rem;">Vehicle 1</th>
+                                <th id="comp-h2" style="text-align: center; padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); width: 35%; color: #FFF; font-size: 1.1rem;">Vehicle 2</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comp-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <button class="close-result-btn" onclick="closeComparison()" style="margin-top: 15px; padding: 10px 30px; font-size: 0.9rem;">RETURN TO GARAGE</button>
+            </div>
+        </main>
+
+        <!-- Info Sidebar (RIGHT) -->
+        <aside class="info-sidebar" id="info-sidebar" style="width: 380px; background: rgba(15, 15, 20, 0.95); border-left: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column; z-index: 10; padding: 2rem 1.5rem; overflow-y: auto; gap: 20px; box-shadow: -5px 0 20px rgba(0,0,0,0.5);">
+            <!-- Vehicle Specifications -->
+            <div class="info-section" style="background: rgba(10, 10, 15, 0.6); border: 1px solid rgba(74, 144, 226, 0.3); padding: 1.5rem; border-radius: 8px; box-shadow: 0 0 15px rgba(74, 144, 226, 0.1);">
+                <h3 style="color: #D4AF37; font-family: 'Orbitron', sans-serif; font-size: 1.1rem; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 8px; margin-bottom: 15px;">VEHICLE SPECIFICATIONS</h3>
+                <div class="spec-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="spec-item">
+                        <div class="spec-label" style="font-size: 0.8rem; color: #A0A0A0; font-family: 'Rajdhani', sans-serif; margin-bottom: 4px;">ENGINE</div>
+                        <div class="spec-value" id="hud-engine" style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #FFF; text-shadow: 0 0 5px rgba(255,255,255,0.3);">1.5L MPi</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label" style="font-size: 0.8rem; color: #A0A0A0; font-family: 'Rajdhani', sans-serif; margin-bottom: 4px;">TOP SPEED</div>
+                        <div class="spec-value" id="hud-speed" style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #FFF; text-shadow: 0 0 5px rgba(255,255,255,0.3);">120 MPH</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label" style="font-size: 0.8rem; color: #A0A0A0; font-family: 'Rajdhani', sans-serif; margin-bottom: 4px;">RANGE / KMs</div>
+                        <div class="spec-value" id="hud-range" style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #FFF; text-shadow: 0 0 5px rgba(255,255,255,0.3);">10,000</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label" style="font-size: 0.8rem; color: #A0A0A0; font-family: 'Rajdhani', sans-serif; margin-bottom: 4px;">YEAR</div>
+                        <div class="spec-value" id="hud-year" style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #FFF; text-shadow: 0 0 5px rgba(255,255,255,0.3);">2024</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vehicle Intelligence Score -->
+            <div class="info-section" style="background: rgba(10, 10, 15, 0.6); border: 1px solid rgba(74, 144, 226, 0.3); padding: 1.5rem; border-radius: 8px; box-shadow: 0 0 15px rgba(74, 144, 226, 0.1);">
+                <h3 style="color: #D4AF37; font-family: 'Orbitron', sans-serif; font-size: 1.1rem; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 8px; margin-bottom: 15px;">INTELLIGENCE SCORE</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <span style="font-family: 'Rajdhani', sans-serif; color: #FFF; font-size: 1.2rem;">OVERALL SCORE</span>
+                    <span id="score-overall" style="font-family: 'Orbitron', sans-serif; font-size: 2rem; color: #4A90E2; font-weight: bold; text-shadow: 0 0 10px rgba(74,144,226,0.5);">81/100</span>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- Category Bars -->
+                    <div class="score-cat">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.95rem; color: #A0A0A0; font-family: 'Rajdhani', sans-serif;">
+                            <span>Performance</span><span id="score-perf-val">72/100</span>
+                        </div>
+                        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden;">
+                            <div id="score-perf-bar" style="width: 72%; height: 100%; background: #F5A623; box-shadow: 0 0 8px #F5A623; transition: width 0.5s ease;"></div>
+                        </div>
+                    </div>
+                    <div class="score-cat">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.95rem; color: #A0A0A0; font-family: 'Rajdhani', sans-serif;">
+                            <span>Technology</span><span id="score-tech-val">78/100</span>
+                        </div>
+                        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden;">
+                            <div id="score-tech-bar" style="width: 78%; height: 100%; background: #F5A623; box-shadow: 0 0 8px #F5A623; transition: width 0.5s ease;"></div>
+                        </div>
+                    </div>
+                    <div class="score-cat">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.95rem; color: #A0A0A0; font-family: 'Rajdhani', sans-serif;">
+                            <span>Efficiency</span><span id="score-eff-val">82/100</span>
+                        </div>
+                        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden;">
+                            <div id="score-eff-bar" style="width: 82%; height: 100%; background: #D4AF37; box-shadow: 0 0 8px #D4AF37; transition: width 0.5s ease;"></div>
+                        </div>
+                    </div>
+                    <div class="score-cat">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.95rem; color: #A0A0A0; font-family: 'Rajdhani', sans-serif;">
+                            <span>Comfort</span><span id="score-comf-val">80/100</span>
+                        </div>
+                        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden;">
+                            <div id="score-comf-bar" style="width: 80%; height: 100%; background: #D4AF37; box-shadow: 0 0 8px #D4AF37; transition: width 0.5s ease;"></div>
+                        </div>
+                    </div>
+                    <div class="score-cat">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.95rem; color: #A0A0A0; font-family: 'Rajdhani', sans-serif;">
+                            <span>Reliability</span><span id="score-rel-val">88/100</span>
+                        </div>
+                        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden;">
+                            <div id="score-rel-bar" style="width: 88%; height: 100%; background: #D4AF37; box-shadow: 0 0 8px #D4AF37; transition: width 0.5s ease;"></div>
+                        </div>
+                    </div>
+                    <div class="score-cat">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.95rem; color: #A0A0A0; font-family: 'Rajdhani', sans-serif;">
+                            <span>Value for Money</span><span id="score-val-val">90/100</span>
+                        </div>
+                        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden;">
+                            <div id="score-val-bar" style="width: 90%; height: 100%; background: #4A90E2; box-shadow: 0 0 8px #4A90E2; transition: width 0.5s ease;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: flex; flex-direction: column; gap: 15px; margin-top: auto;">
+                <button class="predict-btn" onclick="openComparisonModal()" id="compare-btn" style="width: 100%; padding: 1.2rem; background: rgba(10, 10, 15, 0.8); border: 1px solid #D4AF37; color: #D4AF37; font-size: 1rem; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);">
+                    COMPARE VEHICLES
+                </button>
+                <button class="predict-btn" onclick="executePrediction()" id="predict-btn" style="width: 100%; padding: 1.2rem; font-size: 1rem;">
+                    PREDICT MARKET VALUE
+                </button>
+            </div>
+        </aside>
+
+        </div>
+    </div>
+
+    <script>
+        // --- STARTUP SEQUENCE ---
+        const messages = [
+            "Initializing KMA² Intelligence Framework...", 
+            "Optimizing Core Data Assets...", 
+            "Launching Neural Networks...", 
+            "Training Prediction Models...", 
+            "Calibrating 3D Showroom...", 
+            "System Ready."
+        ];
+        document.addEventListener("DOMContentLoaded", () => {
+            const msgEl = document.getElementById('loading-msg');
+            const progress = document.getElementById('progress-bar');
+            const startupScreen = document.getElementById('startup-screen');
+            const dashboard = document.getElementById('main-dashboard');
+            
+            let currentMsg = 0;
+            setTimeout(() => {
+                const interval = setInterval(() => {
+                    currentMsg++;
+                    if (currentMsg < messages.length) {
+                        msgEl.style.opacity = 0;
+                        setTimeout(() => { msgEl.innerText = messages[currentMsg]; msgEl.style.opacity = 1; }, 500);
+                    } else {
+                        clearInterval(interval);
+                        setTimeout(() => {
+                            startupScreen.style.opacity = '0';
+                            setTimeout(() => {
+                                startupScreen.style.display = 'none';
+                                dashboard.style.display = 'flex';
+                                setTimeout(() => dashboard.style.opacity = '1', 50);
+                            }, 1000);
+                        }, 2000);
+                    }
+                }, 2000);
+            }, 5500);
+
+            progress.style.transition = `width 15s linear`;
+            setTimeout(() => progress.style.width = '100%', 500);
+        });
+
+        // --- CAR DATA & SELECTION ---
+        const carData = {
+            'hyundai_creta': {
+                img: 'hyundai/creta/creta_front.jpg',
+                model: 'Hyundai Creta', spec: 'HYUNDAI // AUTOMATIC // PETROL', eng: '1.5L MPi', spd: '120 MPH', rng: '10,000', yr: '2024',
+                payload: {Brand:'Hyundai', Model:'Creta', Year:2024, Driven_kms:10000, Fuel_Type:'Petrol', Transmission:'Automatic', MPG:30.0, Engine_Size:1.5, Tax:110},
+                views: {
+                    'Front': 'hyundai/creta/creta_front.jpg',
+                    'Rear': 'hyundai/creta/creta_rear.jpg',
+                    'Left': 'hyundai/creta/creta_left.jpg',
+                    'Top': 'hyundai/creta/creta_top.jpg',
+                    'Dashboard': 'hyundai/creta/creta_dashboard.jpg',
+                    'Cabin': 'hyundai/creta/creta_cabin.jpg'
+                }
+            },
+            'hyundai_venue': {
+                img: 'hyundai/venue/venue_front.jpg',
+                model: 'Hyundai Venue', spec: 'HYUNDAI // AUTOMATIC // PETROL', eng: '1.0L Turbo', spd: '115 MPH', rng: '12,000', yr: '2024',
+                payload: {Brand:'Hyundai', Model:'Venue', Year:2024, Driven_kms:12000, Fuel_Type:'Petrol', Transmission:'Automatic', MPG:32.0, Engine_Size:1.0, Tax:105},
+                views: {
+                    'Front': 'hyundai/venue/venue_front.jpg',
+                    'Rear': 'hyundai/venue/venue_rear.jpg',
+                    'Left': 'hyundai/venue/venue_left.jpg',
+                    'Top': 'hyundai/venue/venue_top.jpg',
+                    'Dashboard': 'hyundai/venue/venue_dashboard.jpg',
+                    'Cabin': 'hyundai/venue/venue_cabin.jpg'
+                }
+            },
+            'hyundai_verna': {
+                img: 'hyundai/verna/verna_front.jpg',
+                model: 'Hyundai Verna', spec: 'HYUNDAI // AUTOMATIC // PETROL', eng: '1.5L Turbo', spd: '130 MPH', rng: '15,000', yr: '2024',
+                payload: {Brand:'Hyundai', Model:'Verna', Year:2024, Driven_kms:15000, Fuel_Type:'Petrol', Transmission:'Automatic', MPG:35.0, Engine_Size:1.5, Tax:120},
+                views: {
+                    'Front': 'hyundai/verna/verna_front.jpg',
+                    'Rear': 'hyundai/verna/verna_rear.jpg',
+                    'Left': 'hyundai/verna/verna_left.jpg',
+                    'Top': 'hyundai/verna/verna_top.jpg',
+                    'Dashboard': 'hyundai/verna/verna_dashboard.jpg',
+                    'Cabin': 'hyundai/verna/verna_cabin.jpg'
+                }
+            },
+            'toyota_camry': {
+                img: 'toyota/Camry/front.jpeg',
+                model: 'Toyota Camry', spec: 'TOYOTA // AUTOMATIC // HYBRID', eng: '2.5L Hybrid', spd: '135 MPH', rng: '15,000', yr: '2024',
+                payload: {Brand:'Toyota', Model:'Camry', Year:2024, Driven_kms:15000, Fuel_Type:'Hybrid', Transmission:'Automatic', MPG:45.0, Engine_Size:2.5, Tax:140},
+                views: {
+                    'Front': 'toyota/Camry/front.jpeg',
+                    'Rear': 'toyota/Camry/rear.jpeg',
+                    'Left': 'toyota/Camry/left.jpeg',
+                    'Top': 'toyota/Camry/top.jpeg',
+                    'Dashboard': 'toyota/Camry/dashboard.jpeg',
+                    'Cabin': 'toyota/Camry/cabin.jpeg'
+                }
+            },
+            'toyota_fortuner': {
+                img: 'toyota/Fortuner/front.jpeg',
+                model: 'Toyota Fortuner', spec: 'TOYOTA // AUTOMATIC // DIESEL', eng: '2.8L Diesel', spd: '115 MPH', rng: '20,000', yr: '2024',
+                payload: {Brand:'Toyota', Model:'Fortuner', Year:2024, Driven_kms:20000, Fuel_Type:'Diesel', Transmission:'Automatic', MPG:25.0, Engine_Size:2.8, Tax:200},
+                views: {
+                    'Front': 'toyota/Fortuner/front.jpeg',
+                    'Rear': 'toyota/Fortuner/rear.jpeg',
+                    'Left': 'toyota/Fortuner/left.jpeg',
+                    'Top': 'toyota/Fortuner/top.jpeg',
+                    'Dashboard': 'toyota/Fortuner/dashboard.jpeg',
+                    'Cabin': 'toyota/Fortuner/cabin.jpeg'
+                }
+            },
+            'honda_city': {
+                img: 'honda/City/front.jpeg',
+                model: 'Honda City', spec: 'HONDA // AUTOMATIC // PETROL', eng: '1.5L i-VTEC', spd: '120 MPH', rng: '15,000', yr: '2024',
+                payload: {Brand:'Honda', Model:'City', Year:2024, Driven_kms:15000, Fuel_Type:'Petrol', Transmission:'Automatic', MPG:35.0, Engine_Size:1.5, Tax:110},
+                views: {
+                    'Front': 'honda/City/front.jpeg',
+                    'Rear': 'honda/City/rear.jpeg',
+                    'Left': 'honda/City/left.jpeg',
+                    'Top': 'honda/City/top.jpeg',
+                    'Dashboard': 'honda/City/dashboard.jpeg',
+                    'Cabin': 'honda/City/cabin.jpeg'
+                }
+            },
+            'honda_elevate': {
+                img: 'honda/Elevate/front.jpeg',
+                model: 'Honda Elevate', spec: 'HONDA // AUTOMATIC // PETROL', eng: '1.5L i-VTEC', spd: '115 MPH', rng: '12,000', yr: '2024',
+                payload: {Brand:'Honda', Model:'Elevate', Year:2024, Driven_kms:12000, Fuel_Type:'Petrol', Transmission:'Automatic', MPG:32.0, Engine_Size:1.5, Tax:115},
+                views: {
+                    'Front': 'honda/Elevate/front.jpeg',
+                    'Rear': 'honda/Elevate/rear.jpeg',
+                    'Left': 'honda/Elevate/left.jpeg',
+                    'Top': 'honda/Elevate/top.jpeg',
+                    'Dashboard': 'honda/Elevate/dashboard.jpeg',
+                    'Cabin': 'honda/Elevate/cabin.jpeg'
+                }
+            },
+            'bmw_xm': {
+                img: 'bmw/XM/front.jpeg',
+                model: 'BMW XM', spec: 'BMW // AUTOMATIC // HYBRID', eng: '4.4L V8', spd: '168 MPH', rng: '10,000', yr: '2024',
+                payload: {Brand:'BMW', Model:'XM', Year:2024, Driven_kms:10000, Fuel_Type:'Hybrid', Transmission:'Automatic', MPG:20.0, Engine_Size:4.4, Tax:250},
+                views: {
+                    'Front': 'bmw/XM/front.jpeg',
+                    'Rear': 'bmw/XM/rear.jpeg',
+                    'Left': 'bmw/XM/left.jpeg',
+                    'Top': 'bmw/XM/top.jpeg',
+                    'Dashboard': 'bmw/XM/dashboard.jpeg',
+                    'Cabin': 'bmw/XM/cabin.jpeg'
+                }
+            },
+            'bmw_m5': {
+                img: 'bmw/M5 Competition/front.jpeg',
+                model: 'BMW M5 Competition', spec: 'BMW // AUTOMATIC // PETROL', eng: '4.4L V8', spd: '190 MPH', rng: '12,000', yr: '2024',
+                payload: {Brand:'BMW', Model:'M5 Competition', Year:2024, Driven_kms:12000, Fuel_Type:'Petrol', Transmission:'Automatic', MPG:18.0, Engine_Size:4.4, Tax:260},
+                views: {
+                    'Front': 'bmw/M5 Competition/front.jpeg',
+                    'Rear': 'bmw/M5 Competition/rear.jpeg',
+                    'Left': 'bmw/M5 Competition/left.jpeg',
+                    'Top': 'bmw/M5 Competition/top.jpeg',
+                    'Dashboard': 'bmw/M5 Competition/dashboard.jpeg',
+                    'Cabin': 'bmw/M5 Competition/cabin.jpeg'
+                }
+            },
+            'audi_a6': {
+                img: 'audi/A6/front.jpeg',
+                model: 'Audi A6', spec: 'AUDI // AUTOMATIC // PETROL', eng: '2.0L TFSI', spd: '155 MPH', rng: '14,000', yr: '2024',
+                payload: {Brand:'Audi', Model:'A6', Year:2024, Driven_kms:14000, Fuel_Type:'Petrol', Transmission:'Automatic', MPG:30.0, Engine_Size:2.0, Tax:180},
+                views: {
+                    'Front': 'audi/A6/front.jpeg',
+                    'Rear': 'audi/A6/rear.jpeg',
+                    'Left': 'audi/A6/left.jpeg',
+                    'Top': 'audi/A6/top.jpeg',
+                    'Dashboard': 'audi/A6/dashboard.jpeg',
+                    'Cabin': 'audi/A6/cabin.jpeg'
+                }
+            },
+            'audi_q7': {
+                img: 'audi/Q7/front.jpeg',
+                model: 'Audi Q7', spec: 'AUDI // AUTOMATIC // PETROL', eng: '3.0L TFSI', spd: '155 MPH', rng: '16,000', yr: '2024',
+                payload: {Brand:'Audi', Model:'Q7', Year:2024, Driven_kms:16000, Fuel_Type:'Petrol', Transmission:'Automatic', MPG:22.0, Engine_Size:3.0, Tax:210},
+                views: {
+                    'Front': 'audi/Q7/front.jpeg',
+                    'Rear': 'audi/Q7/rear.jpeg',
+                    'Left': 'audi/Q7/left.jpeg',
+                    'Top': 'audi/Q7/top.jpeg',
+                    'Dashboard': 'audi/Q7/dashboard.jpeg',
+                    'Cabin': 'audi/Q7/cabin.jpeg'
+                }
+            },
+            'pagani_huayra': {
+                img: 'pagani/Huayra/front.jpeg',
+                model: 'Pagani Huayra', spec: 'PAGANI // AUTOMATIC // PETROL', eng: '6.0L V12', spd: '238 MPH', rng: '4,000', yr: '2024',
+                payload: {Brand:'Pagani', Model:'Huayra', Year:2024, Driven_kms:4000, Fuel_Type:'Petrol', Transmission:'Automatic', MPG:12.0, Engine_Size:6.0, Tax:500},
+                views: {
+                    'Front': 'pagani/Huayra/front.jpeg',
+                    'Rear': 'pagani/Huayra/rear.jpeg',
+                    'Left': 'pagani/Huayra/left.jpeg',
+                    'Top': 'pagani/Huayra/top.jpeg',
+                    'Dashboard': 'pagani/Huayra/dashboard.jpeg',
+                    'Cabin': 'pagani/Huayra/cabin.jpeg'
+                }
+            },
+            'pagani_utopia': {
+                img: 'pagani/Utopia/front.jpeg',
+                model: 'Pagani Utopia', spec: 'PAGANI // MANUAL // PETROL', eng: '6.0L V12', spd: '220 MPH', rng: '2,000', yr: '2024',
+                payload: {Brand:'Pagani', Model:'Utopia', Year:2024, Driven_kms:2000, Fuel_Type:'Petrol', Transmission:'Manual', MPG:10.0, Engine_Size:6.0, Tax:550},
+                views: {
+                    'Front': 'pagani/Utopia/front.jpeg',
+                    'Rear': 'pagani/Utopia/rear.jpeg',
+                    'Left': 'pagani/Utopia/left.jpeg',
+                    'Top': 'pagani/Utopia/top.jpeg',
+                    'Dashboard': 'pagani/Utopia/dashboard.jpeg',
+                    'Cabin': 'pagani/Utopia/cabin.jpeg'
+                }
+            },
+            'nissan_gtr': {
+                img: 'nissan/GT-R R35/front.jpeg',
+                model: 'Nissan GT-R R35', spec: 'NISSAN // AUTOMATIC // PETROL', eng: '3.8L Twin-Turbo V6', spd: '196 MPH', rng: '20,000', yr: '2024',
+                payload: {Brand:'Nissan', Model:'GT-R', Year:2024, Driven_kms:20000, Fuel_Type:'Petrol', Transmission:'Automatic', MPG:16.0, Engine_Size:3.8, Tax:250},
+                views: {
+                    'Front': 'nissan/GT-R R35/front.jpeg',
+                    'Rear': 'nissan/GT-R R35/rear.jpeg',
+                    'Left': 'nissan/GT-R R35/left.jpeg',
+                    'Top': 'nissan/GT-R R35/top.jpeg',
+                    'Dashboard': 'nissan/GT-R R35/dashboard.jpeg',
+                    'Cabin': 'nissan/GT-R R35/cabin.jpeg'
+                }
+            },
+            'tesla_model3': {
+                img: 'tesla/Model 3/front.jpeg',
+                model: 'Tesla Model 3', spec: 'TESLA // AUTOMATIC // ELECTRIC', eng: 'Dual Motor AWD', spd: '162 MPH', rng: '341 Miles', yr: '2024',
+                payload: {Brand:'Tesla', Model:'Model 3', Year:2024, Driven_kms:5000, Fuel_Type:'Electric', Transmission:'Automatic', MPG:130.0, Engine_Size:0.0, Tax:0},
+                views: {
+                    'Front': 'tesla/Model 3/front.jpeg',
+                    'Rear': 'tesla/Model 3/rear.jpeg',
+                    'Left': 'tesla/Model 3/left.jpeg',
+                    'Top': 'tesla/Model 3/top.jpeg',
+                    'Dashboard': 'tesla/Model 3/dashboard.jpeg',
+                    'Cabin': 'tesla/Model 3/cabin.jpeg'
+                }
+            },
+            'byd_seal': {
+                img: 'byd/Seal/front.jpeg',
+                model: 'BYD Seal', spec: 'BYD // AUTOMATIC // ELECTRIC', eng: 'AWD Dual Motor', spd: '111 MPH', rng: '323 Miles', yr: '2024',
+                payload: {Brand:'BYD', Model:'Seal', Year:2024, Driven_kms:3000, Fuel_Type:'Electric', Transmission:'Automatic', MPG:115.0, Engine_Size:0.0, Tax:0},
+                views: {
+                    'Front': 'byd/Seal/front.jpeg',
+                    'Rear': 'byd/Seal/rear.jpeg',
+                    'Left': 'byd/Seal/left.jpeg',
+                    'Top': 'byd/Seal/top.jpeg',
+                    'Dashboard': 'byd/Seal/dashboard.jpeg',
+                    'Cabin': 'byd/Seal/cabin.jpeg'
+                }
+            },
+            'porsche_taycan': {
+                img: 'porsche/Taycon Turbo S/front.jpeg',
+                model: 'Porsche Taycan Turbo S', spec: 'PORSCHE // AUTOMATIC // ELECTRIC', eng: 'Dual Motor AWD', spd: '161 MPH', rng: '290 Miles', yr: '2024',
+                payload: {Brand:'Porsche', Model:'Taycan', Year:2024, Driven_kms:1000, Fuel_Type:'Electric', Transmission:'Automatic', MPG:80.0, Engine_Size:0.0, Tax:0},
+                views: {
+                    'Front': 'porsche/Taycon Turbo S/front.jpeg',
+                    'Rear': 'porsche/Taycon Turbo S/rear.jpeg',
+                    'Left': 'porsche/Taycon Turbo S/left.jpeg',
+                    'Top': 'porsche/Taycon Turbo S/top.jpeg',
+                    'Dashboard': 'porsche/Taycon Turbo S/dashboard.jpeg',
+                    'Cabin': 'porsche/Taycon Turbo S/cabin.jpeg'
+                }
+            },
+            'rimac_nevera': {
+                img: 'rimac/Nevera/front.jpeg',
+                model: 'Rimac Nevera', spec: 'RIMAC // AUTOMATIC // ELECTRIC', eng: 'Quad Motor AWD', spd: '258 MPH', rng: '300 Miles', yr: '2024',
+                payload: {Brand:'Rimac', Model:'Nevera', Year:2024, Driven_kms:500, Fuel_Type:'Electric', Transmission:'Automatic', MPG:70.0, Engine_Size:0.0, Tax:0},
+                views: {
+                    'Front': 'rimac/Nevera/front.jpeg',
+                    'Rear': 'rimac/Nevera/rear.jpeg',
+                    'Left': 'rimac/Nevera/left.jpeg',
+                    'Top': 'rimac/Nevera/top.jpeg',
+                    'Dashboard': 'rimac/Nevera/dashboard.jpeg',
+                    'Cabin': 'rimac/Nevera/cabin.jpeg'
+                }
+            },
+            'lucid_air': {
+                img: 'lucid/Air Sapphire/front.jpeg',
+                model: 'Lucid Air Sapphire', spec: 'LUCID // AUTOMATIC // ELECTRIC', eng: 'Tri Motor AWD', spd: '205 MPH', rng: '427 Miles', yr: '2024',
+                payload: {Brand:'Lucid', Model:'Air Sapphire', Year:2024, Driven_kms:800, Fuel_Type:'Electric', Transmission:'Automatic', MPG:105.0, Engine_Size:0.0, Tax:0},
+                views: {
+                    'Front': 'lucid/Air Sapphire/front.jpeg',
+                    'Rear': 'lucid/Air Sapphire/rear.jpeg',
+                    'Left': 'lucid/Air Sapphire/left.jpeg',
+                    'Top': 'lucid/Air Sapphire/top.jpeg',
+                    'Dashboard': 'lucid/Air Sapphire/dashboard.jpeg',
+                    'Cabin': 'lucid/Air Sapphire/cabin.jpeg'
+                }
+            }
+        };
+
+        let currentPayload = carData['hyundai_creta'].payload;
+
+        let currentViews = carData['hyundai_creta'].views;
+        
+        let currentCat = 'Fuel Vehicles';
+        let currentSubcat = 'Regular Vehicles';
+        let currentCarId = 'hyundai_creta';
+
+        const vehicleScores = {
+            'hyundai_creta': { perf: 72, tech: 78, eff: 82, comf: 80, rel: 88, val: 90, overall: 81 },
+            'hyundai_venue': { perf: 68, tech: 75, eff: 85, comf: 76, rel: 89, val: 92, overall: 80 },
+            'hyundai_verna': { perf: 75, tech: 82, eff: 80, comf: 82, rel: 87, val: 88, overall: 82 },
+            'toyota_camry': { perf: 78, tech: 80, eff: 88, comf: 85, rel: 95, val: 92, overall: 86 },
+            'toyota_fortuner': { perf: 82, tech: 75, eff: 70, comf: 80, rel: 94, val: 85, overall: 81 },
+            'honda_city': { perf: 74, tech: 79, eff: 84, comf: 81, rel: 92, val: 89, overall: 83 },
+            'honda_elevate': { perf: 73, tech: 78, eff: 82, comf: 80, rel: 90, val: 88, overall: 81 },
+            'bmw_xm': { perf: 92, tech: 94, eff: 75, comf: 90, rel: 82, val: 78, overall: 85 },
+            'bmw_m5': { perf: 96, tech: 92, eff: 65, comf: 85, rel: 80, val: 75, overall: 82 },
+            'audi_a6': { perf: 85, tech: 90, eff: 78, comf: 88, rel: 84, val: 80, overall: 84 },
+            'audi_q7': { perf: 88, tech: 89, eff: 72, comf: 92, rel: 83, val: 76, overall: 83 },
+            'pagani_huayra': { perf: 98, tech: 85, eff: 40, comf: 70, rel: 75, val: 65, overall: 72 },
+            'pagani_utopia': { perf: 99, tech: 88, eff: 42, comf: 72, rel: 78, val: 68, overall: 74 },
+            'nissan_gtr': { perf: 95, tech: 80, eff: 55, comf: 70, rel: 85, val: 82, overall: 77 },
+            'tesla_model3': { perf: 88, tech: 98, eff: 96, comf: 82, rel: 80, val: 90, overall: 89 },
+            'byd_seal': { perf: 85, tech: 90, eff: 92, comf: 84, rel: 82, val: 94, overall: 87 },
+            'porsche_taycan': { perf: 96, tech: 94, eff: 82, comf: 88, rel: 85, val: 78, overall: 87 },
+            'rimac_nevera': { perf: 100, tech: 96, eff: 70, comf: 80, rel: 82, val: 65, overall: 82 },
+            'lucid_air': { perf: 95, tech: 95, eff: 94, comf: 92, rel: 80, val: 75, overall: 88 }
+        };
+
+        function updateIntelligenceScore(carId) {
+            const scores = vehicleScores[carId] || { perf: 80, tech: 80, eff: 80, comf: 80, rel: 80, val: 80, overall: 80 };
+            
+            const overallEl = document.getElementById('score-overall');
+            if (overallEl) {
+                overallEl.style.opacity = 0;
+                overallEl.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => {
+                    overallEl.innerText = scores.overall + '/100';
+                    overallEl.style.opacity = 1;
+                }, 300);
+            }
+            
+            const cats = ['perf', 'tech', 'eff', 'comf', 'rel', 'val'];
+            cats.forEach(cat => {
+                const valEl = document.getElementById('score-' + cat + '-val');
+                const barEl = document.getElementById('score-' + cat + '-bar');
+                if (valEl && barEl) {
+                    valEl.style.opacity = 0;
+                    valEl.style.transition = 'opacity 0.3s ease';
+                    barEl.style.width = '0%';
+                    setTimeout(() => {
+                        valEl.innerText = scores[cat] + '/100';
+                        valEl.style.opacity = 1;
+                        barEl.style.width = scores[cat] + '%';
+                        
+                        // Color code the bar based on score
+                        if(scores[cat] >= 90) barEl.style.background = '#4A90E2';
+                        else if(scores[cat] >= 80) barEl.style.background = '#D4AF37';
+                        else if(scores[cat] >= 70) barEl.style.background = '#F5A623';
+                        else barEl.style.background = '#FF4A4A';
+                        
+                        barEl.style.boxShadow = `0 0 8px ${barEl.style.background}`;
+                    }, 300);
+                }
+            });
+        }
+
+        function selectCar(id, el) {
+            document.querySelectorAll('.brand-item').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+
+            const data = carData[id];
+            currentPayload = data.payload;
+            currentCarId = id;
+            
+            // Determine Cat and Subcat dynamically from DOM
+            const originalItem = Array.from(document.querySelectorAll('.brand-list .category-group:not(#cat-favorites) .brand-item')).find(item => item.getAttribute('onclick') && item.getAttribute('onclick').includes(`selectCar('${id}'`));
+            if (originalItem) {
+                const brandGroup = originalItem.closest('.brand-group');
+                if (brandGroup) {
+                    const subcatGroup = brandGroup.parentElement.closest('.brand-group');
+                    if (subcatGroup) {
+                        const h = subcatGroup.querySelector('.brand-header');
+                        if (h) currentSubcat = h.innerText.trim();
+                    }
+                }
+                const catGroup = originalItem.closest('.category-group');
+                if (catGroup) {
+                    const h = catGroup.querySelector('.category-header');
+                    if (h) currentCat = h.innerText.replace('⭐', '').trim();
+                }
+            }
+
+            // Update UI
+            const nameEl = document.getElementById('car-model-name');
+            const modelName = data.model.toUpperCase();
+            nameEl.innerText = modelName;
+            
+            // Dynamic Title Scaling
+            if (modelName.length > 20) {
+                nameEl.style.fontSize = '2.0rem';
+            } else if (modelName.length > 12) {
+                nameEl.style.fontSize = '2.4rem';
+            } else {
+                nameEl.style.fontSize = '3.0rem';
+            }
+            
+            document.getElementById('car-brand-name').innerText = data.spec;
+            
+            // Animate HUD
+            updateHud('hud-engine', data.eng);
+            updateHud('hud-speed', data.spd);
+            updateHud('hud-range', data.rng);
+            updateHud('hud-year', data.yr);
+
+            // Change Image with animation
+            const imgEl = document.getElementById('hero-car');
+            const platform = document.getElementById('car-platform');
+            imgEl.style.opacity = 0;
+            
+            updateIntelligenceScore(id);
+            
+            // View Selector Logic
+            const viewSelector = document.getElementById('view-selector');
+            if (data.views) {
+                currentViews = data.views;
+                viewSelector.style.display = 'flex';
+                // Reset to front view button
+                document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelector('.view-btn').classList.add('active'); // front is first
+            } else {
+                currentViews = null;
+                viewSelector.style.display = 'none';
+            }
+
+            setTimeout(() => {
+                imgEl.src = `/static/assets/cars/${data.img}`;
+                imgEl.style.opacity = 1;
+            }, 400);
+        }
+
+        function changeCarView(viewName, btnEl) {
+            if (!currentViews || !currentViews[viewName]) return;
+            
+            // Update active button state
+            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+            btnEl.classList.add('active');
+
+            // Smooth fade switch
+            const imgEl = document.getElementById('hero-car');
+            imgEl.style.opacity = 0;
+            setTimeout(() => {
+                imgEl.src = `/static/assets/cars/${currentViews[viewName]}`;
+                imgEl.style.opacity = 1;
+            }, 300);
+        }
+
+        function toggleCategory(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('collapsed');
+        }
+
+        function toggleBrand(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('collapsed');
+        }
+
+        function searchVehicles() {
+            const input = document.getElementById('vehicle-search').value.toLowerCase().trim();
+            
+            if (input.length === 0) {
+                // Reset to default
+                document.querySelectorAll('.category-group').forEach(c => {
+                    c.style.display = 'block';
+                    if (c.id === 'cat-ev') c.classList.add('collapsed');
+                    else c.classList.remove('collapsed');
+                });
+                document.querySelectorAll('.brand-group').forEach(b => {
+                    b.style.display = 'block';
+                    if (b.id === 'fuel-regular' || b.id === 'brand-hyundai') {
+                        b.classList.remove('collapsed');
+                    } else {
+                        b.classList.add('collapsed');
+                    }
+                });
+                document.querySelectorAll('.brand-item').forEach(m => m.style.display = 'flex');
+                document.getElementById('no-results-msg').style.display = 'none';
+                return;
+            }
+
+            let anyVisible = false;
+            
+            // First hide all
+            document.querySelectorAll('.brand-group').forEach(b => b.style.display = 'none');
+            document.querySelectorAll('.category-group').forEach(c => c.style.display = 'none');
+            
+            // Search inner brands
+            const innerBrands = document.querySelectorAll('.brand-group[id^="brand-"]');
+            innerBrands.forEach(brand => {
+                const brandNameEl = brand.querySelector('.brand-header');
+                const brandNameText = brandNameEl.innerText.toLowerCase();
+                const models = brand.querySelectorAll('.brand-item');
+                let brandVisible = false;
+
+                if (brandNameText.includes(input)) {
+                    brandVisible = true;
+                    models.forEach(model => model.style.display = 'flex');
+                } else {
+                    models.forEach(model => {
+                        const modelNameText = model.querySelector('.brand-name').innerText.toLowerCase();
+                        if (modelNameText.includes(input)) {
+                            model.style.display = 'flex';
+                            brandVisible = true;
+                        } else {
+                            model.style.display = 'none';
+                        }
+                    });
+                }
+
+                if (brandVisible) {
+                    brand.style.display = 'block';
+                    brand.classList.remove('collapsed');
+                    
+                    // Show parent wrapper
+                    const wrapper = brand.parentElement.closest('.brand-group');
+                    if (wrapper) {
+                        wrapper.style.display = 'block';
+                        wrapper.classList.remove('collapsed');
+                        
+                        // Show parent category
+                        const category = wrapper.parentElement.closest('.category-group');
+                        if (category) {
+                            category.style.display = 'block';
+                            category.classList.remove('collapsed');
+                        }
+                    }
+                    anyVisible = true;
+                }
+            });
+
+            document.getElementById('no-results-msg').style.display = anyVisible ? 'none' : 'block';
+        }
+
+        let favoriteCars = new Set();
+
+        function toggleFavorite(e, carId, starEl) {
+            e.stopPropagation(); // Prevent selectCar
+            
+            if (favoriteCars.has(carId)) {
+                favoriteCars.delete(carId);
+            } else {
+                favoriteCars.add(carId);
+            }
+            
+            updateStarVisuals();
+            renderFavorites();
+        }
+
+        function updateStarVisuals() {
+            document.querySelectorAll('.favorite-btn').forEach(star => {
+                const item = star.closest('.brand-item');
+                if (item) {
+                    const onclickAttr = item.getAttribute('onclick');
+                    if (onclickAttr && onclickAttr.includes('selectCar(')) {
+                        const carId = onclickAttr.split("'")[1];
+                        if (favoriteCars.has(carId)) {
+                            star.innerHTML = '★';
+                            star.style.textShadow = '0 0 10px rgba(212, 175, 55, 0.5)';
+                        } else {
+                            star.innerHTML = '☆';
+                            star.style.textShadow = 'none';
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderFavorites() {
+            const container = document.getElementById('favorites-container');
+            const noFavMsg = document.getElementById('no-favorites-msg');
+            
+            // Remove all children except noFavMsg
+            Array.from(container.children).forEach(child => {
+                if (child.id !== 'no-favorites-msg') {
+                    child.remove();
+                }
+            });
+            
+            if (favoriteCars.size === 0) {
+                noFavMsg.style.display = 'block';
+            } else {
+                noFavMsg.style.display = 'none';
+                
+                favoriteCars.forEach(carId => {
+                    const originalItems = Array.from(document.querySelectorAll('.brand-list .category-group:not(#cat-favorites) .brand-item'));
+                    const originalItem = originalItems.find(item => {
+                        const onclickAttr = item.getAttribute('onclick');
+                        return onclickAttr && onclickAttr.includes(`selectCar('${carId}'`);
+                    });
+                    
+                    if (originalItem) {
+                        const clone = originalItem.cloneNode(true);
+                        clone.style.display = 'flex';
+                        container.appendChild(clone);
+                    }
+                });
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll('.brand-list .category-group:not(#cat-favorites) .brand-item').forEach(item => {
+                const onclickAttr = item.getAttribute('onclick');
+                if (onclickAttr && onclickAttr.includes('selectCar(')) {
+                    const carId = onclickAttr.split("'")[1];
+                    const brandNameSpan = item.querySelector('.brand-name');
+                    if (brandNameSpan) {
+                        const wrapper = document.createElement('div');
+                        wrapper.style.display = 'flex';
+                        wrapper.style.justifyContent = 'space-between';
+                        wrapper.style.alignItems = 'center';
+                        wrapper.style.width = '100%';
+                        
+                        item.insertBefore(wrapper, brandNameSpan);
+                        wrapper.appendChild(brandNameSpan);
+                        
+                        const star = document.createElement('span');
+                        star.className = 'favorite-btn';
+                        star.innerHTML = '☆';
+                        star.style.fontSize = '1.2rem';
+                        star.style.color = '#D4AF37';
+                        star.style.transition = 'transform 0.2s';
+                        star.style.cursor = 'pointer';
+                        star.setAttribute('onclick', `toggleFavorite(event, '${carId}', this)`);
+                        star.setAttribute('onmouseover', "this.style.transform='scale(1.2)'");
+                        star.setAttribute('onmouseout', "this.style.transform='scale(1)'");
+                        
+                        wrapper.appendChild(star);
+                    }
+                }
+            });
+            renderFavorites();
+            updateIntelligenceScore('hyundai_creta');
+        });
+
+        function updateHud(id, val) {
+            const el = document.getElementById(id);
+            el.style.opacity = 0;
+            el.style.transform = 'translateX(-20px)';
+            setTimeout(() => {
+                el.innerText = val;
+                el.style.opacity = 1;
+                el.style.transform = 'translateX(0)';
+            }, 300);
+        }
+
+        // --- PREDICTION LOGIC ---
+        async function executePrediction() {
+            const btn = document.getElementById('predict-btn');
+            btn.innerText = 'CALCULATING...';
+            btn.classList.add('loading');
+            
+            try {
+                const res = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(currentPayload)
+                });
+                const data = await res.json();
+                
+                setTimeout(() => {
+                    if(data.success) {
+                        let calculatedPrice = 0;
+                        let score = vehicleScores[currentCarId] ? vehicleScores[currentCarId].overall : 80;
+                        
+                        let basePrices = {
+                            'hyundai_creta': 1600000,
+                            'hyundai_verna': 1400000,
+                            'hyundai_venue': 1000000,
+                            'honda_city': 1500000,
+                            'honda_elevate': 1700000,
+                            'toyota_camry': 5000000,
+                            'toyota_fortuner': 4500000,
+                            'bmw_xm': 28000000,
+                            'bmw_m5': 22000000,
+                            'audi_a6': 7500000,
+                            'audi_q7': 12000000,
+                            'nissan_gtr': 14000000,
+                            'pagani_huayra': 280000000,
+                            'pagani_utopia': 350000000,
+                            'tesla_model3': 48000000,
+                            'byd_seal': 52000000,
+                            'porsche_taycan': 30000000,
+                            'lucid_air': 28000000,
+                            'rimac_nevera': 200000000
+                        };
+                        
+                        if (basePrices[currentCarId]) {
+                            calculatedPrice = basePrices[currentCarId];
+                        } else {
+                            if (currentCat === 'EV Vehicles') {
+                                if (currentSubcat.includes('Premium') || currentSubcat.includes('Imported')) calculatedPrice = 15000000;
+                                else calculatedPrice = 4000000;
+                            } else {
+                                if (currentSubcat.includes('Premium')) calculatedPrice = 12000000;
+                                else if (currentSubcat.includes('Imported')) calculatedPrice = 20000000;
+                                else calculatedPrice = 1500000;
+                            }
+                        }
+
+                        let mlVariance = (data.predicted_price % 1000) / 1000; 
+                        let scoreVariance = (score - 80) / 100; 
+                        
+                        let totalVariance = (mlVariance * 0.1) + scoreVariance; 
+                        calculatedPrice = calculatedPrice * (1 + totalVariance);
+                        
+                        calculatedPrice = Math.round(calculatedPrice / 50000) * 50000;
+                        
+                        let marginPercent = 0.15 + ((100 - score) / 200); 
+                        let margin = calculatedPrice * marginPercent;
+                        margin = Math.round(margin / 50000) * 50000;
+                        
+                        let minVal = calculatedPrice - margin;
+                        let maxVal = calculatedPrice + margin;
+
+                        let priceStr = '₹' + calculatedPrice.toLocaleString('en-IN');
+                        let rangeStr = '₹' + minVal.toLocaleString('en-IN') + ' - ₹' + maxVal.toLocaleString('en-IN');
+
+                        document.getElementById('result-price').innerText = priceStr;
+                        document.getElementById('result-range').innerText = rangeStr;
+                        
+                        document.getElementById('result-conf').innerText = data.confidence_score;
+                        
+                        // Update Vehicle Information Summary
+                        document.getElementById('summary-cat').innerText = currentCat;
+                        document.getElementById('summary-subcat').innerText = currentSubcat;
+                        document.getElementById('summary-brand').innerText = currentPayload.Brand;
+                        document.getElementById('summary-model').innerText = currentPayload.Model;
+                        document.getElementById('summary-fuel').innerText = currentPayload.Fuel_Type;
+                        document.getElementById('summary-trans').innerText = currentPayload.Transmission;
+                        document.getElementById('summary-year').innerText = currentPayload.Year;
+                        
+                        document.getElementById('prediction-result-overlay').style.display = 'flex';
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                    btn.innerText = 'PREDICT MARKET VALUE';
+                    btn.classList.remove('loading');
+                }, 1000); // Artificial delay for game-like suspense
+                
+            } catch (e) {
+                alert('Connection Error');
+                btn.innerText = 'PREDICT MARKET VALUE';
+                btn.classList.remove('loading');
+            }
+        }
+        
+        function closePrediction() {
+            document.getElementById('prediction-result-overlay').style.display = 'none';
+        }
+
+        const evExtraData = {
+            'tesla_model3': { batType: 'Lithium-ion', batCap: '82 kWh', charge: 'Tesla Supercharger / Type 2' },
+            'byd_seal': { batType: 'Blade Battery (LFP)', batCap: '82.5 kWh', charge: 'CCS2 Fast Charging' },
+            'porsche_taycan': { batType: 'Performance Battery Plus', batCap: '93.4 kWh', charge: '800V Architecture / CCS2' },
+            'rimac_nevera': { batType: 'Lithium Manganese Nickel', batCap: '120 kWh', charge: '500kW Fast Charging / CCS2' },
+            'lucid_air': { batType: 'Lithium-ion Extended', batCap: '118 kWh', charge: '900V+ Architecture / CCS1' }
+        };
+
+        function openComparisonModal() {
+            document.getElementById('comparison-overlay').style.display = 'flex';
+            
+            // Populate selects if empty
+            const v1 = document.getElementById('compare-v1');
+            const v2 = document.getElementById('compare-v2');
+            
+            if (v1.options.length <= 1) {
+                for (const key in carData) {
+                    const car = carData[key];
+                    const option1 = document.createElement('option');
+                    option1.value = key;
+                    option1.innerText = car.model;
+                    v1.appendChild(option1);
+                    
+                    const option2 = document.createElement('option');
+                    option2.value = key;
+                    option2.innerText = car.model;
+                    v2.appendChild(option2);
+                }
+            }
+            
+            document.getElementById('comparison-results').style.display = 'none';
+            document.getElementById('compare-error').style.display = 'none';
+        }
+
+        function closeComparison() {
+            document.getElementById('comparison-overlay').style.display = 'none';
+        }
+
+        function runComparison() {
+            const val1 = document.getElementById('compare-v1').value;
+            const val2 = document.getElementById('compare-v2').value;
+            const err = document.getElementById('compare-error');
+            const res = document.getElementById('comparison-results');
+            
+            if (!val1 || !val2) {
+                err.innerText = "Please select two vehicles to compare.";
+                err.style.display = 'block';
+                res.style.display = 'none';
+                return;
+            }
+            
+            err.style.display = 'none';
+            
+            const car1 = carData[val1];
+            const car2 = carData[val2];
+            
+            document.getElementById('comp-h1').innerText = car1.model.toUpperCase();
+            document.getElementById('comp-h2').innerText = car2.model.toUpperCase();
+            
+            const tbody = document.getElementById('comp-body');
+            tbody.innerHTML = '';
+            
+            const rows = [
+                { label: 'Brand', k: 'Brand', type: 'payload' },
+                { label: 'Model', k: 'Model', type: 'payload' },
+                { label: 'Engine / Motor', k: 'eng', type: 'root' },
+                { label: 'Fuel Type', k: 'Fuel_Type', type: 'payload' },
+                { label: 'Transmission', k: 'Transmission', type: 'payload' },
+                { label: 'Range / Mileage', k: 'rng', type: 'root' },
+                { label: 'Top Speed', k: 'spd', type: 'root' },
+                { label: 'Year', k: 'Year', type: 'payload' },
+                { label: 'Vehicle Category', k: 'spec', type: 'root' }
+            ];
+            
+            const isEV1 = car1.payload.Fuel_Type === 'Electric';
+            const isEV2 = car2.payload.Fuel_Type === 'Electric';
+            
+            if (isEV1 || isEV2) {
+                rows.push({ label: 'Battery Type', k: 'batType', type: 'ev' });
+                rows.push({ label: 'Battery Capacity', k: 'batCap', type: 'ev' });
+                rows.push({ label: 'Charging Type', k: 'charge', type: 'ev' });
+            }
+            
+            rows.forEach(r => {
+                let v1Str = 'N/A';
+                let v2Str = 'N/A';
+                
+                if (r.type === 'payload') {
+                    v1Str = car1.payload[r.k];
+                    v2Str = car2.payload[r.k];
+                } else if (r.type === 'root') {
+                    v1Str = car1[r.k];
+                    v2Str = car2[r.k];
+                } else if (r.type === 'ev') {
+                    if (isEV1 && evExtraData[val1]) v1Str = evExtraData[val1][r.k] || 'N/A';
+                    if (isEV2 && evExtraData[val2]) v2Str = evExtraData[val2][r.k] || 'N/A';
+                }
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #A0A0A0; font-size: 0.95rem;">${r.label}</td>
+                    <td style="text-align: center; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #FFF; font-size: 0.95rem;">${v1Str}</td>
+                    <td style="text-align: center; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #FFF; font-size: 0.95rem;">${v2Str}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            res.style.display = 'block';
+        }
+
+        // --- SIGNATURE POPUP LOGIC ---
+        function openSignaturePopup() {
+            const modal = document.getElementById('signature-modal');
+            modal.style.display = 'flex';
+            setTimeout(() => { modal.classList.add('show'); }, 10);
+        }
+        function closeSignaturePopup() {
+            const modal = document.getElementById('signature-modal');
+            modal.classList.remove('show');
+            setTimeout(() => { modal.style.display = 'none'; }, 400);
+        }
+
+        // --- SETTINGS POPUP & THEME LOGIC ---
+        function openSettingsPopup() {
+            const modal = document.getElementById('settings-modal');
+            modal.style.display = 'flex';
+            setTimeout(() => { modal.classList.add('show'); }, 10);
+        }
+        function closeSettingsPopup() {
+            const modal = document.getElementById('settings-modal');
+            modal.classList.remove('show');
+            setTimeout(() => { modal.style.display = 'none'; }, 400);
+        }
+        function toggleTheme() {
+            const isDark = document.getElementById('theme-toggle').checked;
+            if (isDark) {
+                document.body.classList.remove('light-mode');
+            } else {
+                document.body.classList.add('light-mode');
+            }
+        }
+        function openAboutDeveloper() {
+            // Close settings first
+            closeSettingsPopup();
+            
+            // 1. Fade the background slightly (intro overlay)
+            const introOverlay = document.getElementById('dev-intro-overlay');
+            const introLogo = document.getElementById('dev-intro-logo');
+            const introText = document.getElementById('dev-intro-text');
+            
+            introOverlay.style.display = 'flex';
+            setTimeout(() => { introOverlay.style.opacity = '1'; }, 10);
+            
+            // Logo starts small and grows
+            setTimeout(() => {
+                introLogo.style.opacity = '1';
+                introLogo.style.width = '150px';
+                introLogo.style.boxShadow = '0 0 50px rgba(212, 175, 55, 0.5), 0 0 20px rgba(74, 144, 226, 0.5)';
+                introLogo.style.transform = 'scale(1.1)';
+                // Add soft pulse class
+                introLogo.classList.add('pulse-logo-anim');
+            }, 500);
+
+            // Display text
+            setTimeout(() => {
+                introText.style.opacity = '1';
+            }, 1500);
+
+            // After 3.5s total, transition to the Developer Modal
+            setTimeout(() => {
+                introOverlay.style.opacity = '0';
+                
+                // Open Dev Modal
+                const devModal = document.getElementById('developer-modal');
+                devModal.style.display = 'flex';
+                setTimeout(() => { devModal.classList.add('show'); }, 10);
+
+                setTimeout(() => {
+                    introOverlay.style.display = 'none';
+                    // reset intro overlay states for next time
+                    introLogo.style.opacity = '0';
+                    introLogo.style.width = '50px';
+                    introLogo.style.boxShadow = '0 0 0 rgba(212, 175, 55, 0)';
+                    introLogo.style.transform = 'scale(1)';
+                    introLogo.classList.remove('pulse-logo-anim');
+                    introText.style.opacity = '0';
+                }, 500);
+            }, 3500);
+        }
+        function closeAboutDeveloper() {
+            const modal = document.getElementById('developer-modal');
+            modal.classList.remove('show');
+            setTimeout(() => { modal.style.display = 'none'; }, 400);
+        }
+        function openAboutProject() {
+            // Close settings first
+            closeSettingsPopup();
+            
+            // Fade the background slightly (intro overlay)
+            const introOverlay = document.getElementById('project-intro-overlay');
+            const introLogo = document.getElementById('project-intro-logo');
+            const introText = document.getElementById('project-intro-text');
+            
+            introOverlay.style.display = 'flex';
+            setTimeout(() => { introOverlay.style.opacity = '1'; }, 10);
+            
+            // Logo starts small and grows
+            setTimeout(() => {
+                introLogo.style.opacity = '1';
+                introLogo.style.width = '150px';
+                introLogo.style.boxShadow = '0 0 50px rgba(74, 144, 226, 0.5), 0 0 20px rgba(212, 175, 55, 0.3)';
+                introLogo.style.transform = 'scale(1.1)';
+                introLogo.classList.add('pulse-logo-anim-blue');
+            }, 500);
+
+            // Display text
+            setTimeout(() => {
+                introText.style.opacity = '1';
+            }, 1500);
+
+            // After 3.5s total, transition to the Project Modal
+            setTimeout(() => {
+                introOverlay.style.opacity = '0';
+                
+                // Open Project Modal
+                const projectModal = document.getElementById('project-modal');
+                projectModal.style.display = 'flex';
+                setTimeout(() => { projectModal.classList.add('show'); }, 10);
+
+                setTimeout(() => {
+                    introOverlay.style.display = 'none';
+                    // reset intro overlay states
+                    introLogo.style.opacity = '0';
+                    introLogo.style.width = '50px';
+                    introLogo.style.boxShadow = '0 0 0 rgba(74, 144, 226, 0)';
+                    introLogo.style.transform = 'scale(1)';
+                    introLogo.classList.remove('pulse-logo-anim-blue');
+                    introText.style.opacity = '0';
+                }, 500);
+            }, 3500);
+        }
+        function closeAboutProject() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('show');
+            setTimeout(() => { modal.style.display = 'none'; }, 400);
+        }
+
+        // --- BRANDING SHOWCASE LOGIC ---
+        document.addEventListener('click', function(e) {
+            if(e.target && e.target.tagName === 'IMG' && e.target.src.includes('KMA2')) {
+                openBrandingShowcase();
+            }
+        });
+
+        function openBrandingShowcase() {
+            // Close any other open modals just in case, except the showcase itself
+            const modals = document.querySelectorAll('.signature-modal-overlay');
+            modals.forEach(m => {
+                if(m.id !== 'branding-showcase-modal') {
+                    m.classList.remove('show');
+                    setTimeout(() => { m.style.display = 'none'; }, 400);
+                }
+            });
+            
+            const settings = document.getElementById('settings-modal');
+            if(settings) {
+                settings.classList.remove('show');
+                setTimeout(() => { settings.style.display = 'none'; }, 400);
+            }
+            
+            const showcase = document.getElementById('branding-showcase-modal');
+            showcase.style.display = 'flex';
+            setTimeout(() => { showcase.classList.add('show'); }, 10);
+        }
+        function closeBrandingShowcase() {
+            const showcase = document.getElementById('branding-showcase-modal');
+            showcase.classList.remove('show');
+            setTimeout(() => { showcase.style.display = 'none'; }, 400);
+        }
+    </script>
+
+    <!-- Signature Series Popup Modal -->
+    <div class="signature-modal-overlay" id="signature-modal" style="display:none;">
+        <div class="signature-modal-content">
+            <button class="close-modal-btn" onclick="closeSignaturePopup()">×</button>
+            <div class="modal-header">
+                <h2 class="violet-text" style="font-size: 1.8rem;">👑 K. M. A² Signature Series</h2>
+                <div class="modal-divider" style="background: linear-gradient(90deg, transparent, rgba(200, 107, 255, 0.8), transparent);"></div>
+            </div>
+            
+            <div class="modal-body">
+                <p class="modal-description">
+                    The <span class="gold-text">K. M. A² Signature Series</span> represents an exclusive collection of intelligent software systems engineered with a unified vision of innovation, performance, user experience, and modern software excellence.
+                </p>
+                <p class="modal-description">
+                    Each Signature Series project is developed under the guidance of the <span class="cyan-text">K. M. A² Intelligence Framework</span>, ensuring consistency, scalability, reliability, and professional-grade engineering standards.
+                </p>
+
+                <div class="modal-section-title" style="color: #C86BFF; border-bottom-color: rgba(200, 107, 255, 0.3);">CORE ECOSYSTEM PRINCIPLES</div>
+                
+                <div class="principles-grid">
+                    <div class="principle-item">
+                        <h4>Project Philosophy</h4>
+                        <p>Combining premium visual design with intelligent machine learning systems to create meaningful software experiences.</p>
+                    </div>
+                    <div class="principle-item">
+                        <h4>Engineering Standards</h4>
+                        <p>Building scalable, maintainable, modular, and professional software solutions powered by the <span class="cyan-text">K. M. A² Intelligence Framework</span>.</p>
+                    </div>
+                    <div class="principle-item">
+                        <h4>Innovation Vision</h4>
+                        <p>Developing advanced applications that transform complex data into practical and user-friendly insights.</p>
+                    </div>
+                    <div class="principle-item">
+                        <h4>Quality Commitment</h4>
+                        <p>Every Signature Series project follows structured development practices, clean architecture, and professional implementation standards.</p>
+                    </div>
+                </div>
+
+                <div class="modal-section-title">ECOSYSTEM EXCELLENCE</div>
+                <div class="project-role-box" style="background: rgba(212, 175, 55, 0.03); border-color: rgba(212, 175, 55, 0.2);">
+                    <p style="color: #E0E0E0; margin-bottom: 1rem; line-height: 1.6;">The <span class="gold-text">K. M. A² Signature Series</span> is built upon a commitment to creating premium software experiences that combine intelligent functionality, modern design, and professional engineering standards.</p>
+                    <p style="color: #E0E0E0; margin: 0; line-height: 1.6;">Every project developed within the Signature Series follows a unified philosophy focused on quality, consistency, innovation, scalability, and long-term maintainability.</p>
+                </div>
+
+                <div class="feature-cards-grid">
+                    <div class="feature-card">
+                        <div class="card-icon">🏆</div>
+                        <h4>Professional Standards</h4>
+                        <p>Enterprise-inspired development practices designed to ensure reliability and software excellence.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="card-icon">⚡</div>
+                        <h4>Performance Driven</h4>
+                        <p>Optimized architectures focused on speed, efficiency, responsiveness, and scalability.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="card-icon">🛡</div>
+                        <h4>Quality Assurance</h4>
+                        <p>Carefully structured systems built with maintainability, stability, and consistency in mind.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="card-icon">🚀</div>
+                        <h4>Future Ready</h4>
+                        <p>Designed to support continuous innovation and the evolution of intelligent software experiences.</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer-text">
+                    The <span class="gold-text">K. M. A² Signature Series</span> represents a growing ecosystem of premium software solutions unified by intelligent engineering, modern design principles, and a commitment to delivering exceptional user experiences.
+                </div>
+                
+                <div class="bottom-close-container">
+                    <button class="bottom-close-btn gold-close-btn" onclick="closeSignaturePopup()">Close Panel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Popup Modal -->
+    <div class="signature-modal-overlay" id="settings-modal" style="display:none;">
+        <div class="signature-modal-content settings-modal-content">
+            <button class="close-modal-btn" onclick="closeSettingsPopup()">×</button>
+            <div class="modal-header">
+                <h2 style="color: #FFF;">⚙ Settings</h2>
+                <div class="modal-divider" style="background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);"></div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="modal-section-title">THEME SETTINGS</div>
+                <div class="settings-box">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>Dark Mode</h4>
+                            <p>Toggle between premium dark and light dashboard themes.</p>
+                        </div>
+                        <label class="theme-switch">
+                            <input type="checkbox" id="theme-toggle" checked onchange="toggleTheme()">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-section-title">SYSTEM INFORMATION</div>
+                <div class="settings-actions-grid">
+                    <div class="interactive-card-btn" onclick="openAboutDeveloper()">
+                        <div class="btn-icon">👤</div>
+                        <div class="btn-text">About Developer</div>
+                    </div>
+                    <div class="interactive-card-btn" onclick="openAboutProject()">
+                        <div class="btn-icon">📘</div>
+                        <div class="btn-text">About Project</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Developer Intro Animation Overlay -->
+    <div id="dev-intro-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 5, 10, 0.95); backdrop-filter: blur(10px); z-index: 11000; justify-content: center; align-items: center; flex-direction: column; opacity: 0; transition: opacity 0.5s ease;">
+        <img src="{{ url_for('static', filename='assets/KMA2 Silver Logo.jpeg') }}" id="dev-intro-logo" style="width: 50px; opacity: 0; border-radius: 50%; box-shadow: 0 0 0 rgba(212, 175, 55, 0); transition: all 1.5s cubic-bezier(0.25, 0.8, 0.25, 1);">
+        <h2 id="dev-intro-text" style="color: #4A90E2; font-family: 'Orbitron', sans-serif; opacity: 0; margin-top: 2rem; font-size: 1.5rem; letter-spacing: 2px; text-shadow: 0 0 15px rgba(74, 144, 226, 0.5); transition: opacity 1s ease; text-align: center;">Meet the Architect Behind the Intelligence</h2>
+    </div>
+
+    <!-- About Developer Modal -->
+    <div class="signature-modal-overlay" id="developer-modal" style="display:none;">
+        <div class="signature-modal-content developer-modal-content">
+            <button class="close-modal-btn" onclick="closeAboutDeveloper()">×</button>
+            <div class="modal-header">
+                <h2 style="font-size: 2.5rem; color: #FFF;">Meet the Project Architect</h2>
+                <div class="modal-divider" style="background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.8), transparent);"></div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="developer-profile-header">
+                    <h3 class="gold-text" style="font-size: 2rem; margin-bottom: 0.5rem;">Mohammed Asjad Aliyan K</h3>
+                    <h4 class="cyan-text" style="font-size: 1.3rem; margin-top: 0; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px;">AI & Intelligent Systems Developer</h4>
+                </div>
+
+                <div class="modal-section-title" style="color: #4A90E2; border-bottom-color: rgba(74, 144, 226, 0.3);">INTRODUCTION</div>
+                <div class="project-role-box developer-box">
+                    <p>This project was designed and developed by <span class="gold-text">Mohammed Asjad Aliyan K (K. M. A²)</span>, with a strong focus on intelligent software engineering, machine learning implementation, modern UI/UX design, and continuous technical innovation.</p>
+                    <p>Driven by a passion for <span class="cyan-text">Artificial Intelligence</span>, <span class="cyan-text">Intelligent Systems</span>, data-driven decision making, and modern engineering practices, the objective is to create software that combines practical functionality with premium user experiences.</p>
+                    <p>The development philosophy focuses on transforming ideas into intelligent digital solutions while continuously exploring <span class="cyan-text">Machine Learning</span>, data analytics, software architecture, and user-centered design principles.</p>
+                    <p>Throughout every project, emphasis is placed on clean engineering standards, scalable architecture, visual excellence, and meaningful user interaction.</p>
+                </div>
+
+                <div class="dev-grid">
+                    <div>
+                        <div class="modal-section-title" style="color: #4A90E2; border-bottom-color: rgba(74, 144, 226, 0.3); margin-top: 1rem;">CORE STRENGTHS</div>
+                        <ul class="dev-list">
+                            <li><span class="cyan-text">✓</span> Machine Learning Systems</li>
+                            <li><span class="cyan-text">✓</span> Artificial Intelligence Development</li>
+                            <li><span class="cyan-text">✓</span> Python Development</li>
+                            <li><span class="cyan-text">✓</span> Data Analytics & Visualization</li>
+                            <li><span class="cyan-text">✓</span> Intelligent Workflow Design</li>
+                            <li><span class="cyan-text">✓</span> Software Architecture</li>
+                            <li><span class="cyan-text">✓</span> Frontend UI / UX Engineering</li>
+                            <li><span class="cyan-text">✓</span> Problem Solving & Logical Thinking</li>
+                            <li><span class="cyan-text">✓</span> Project Development & Deployment</li>
+                            <li><span class="cyan-text">✓</span> Continuous Technical Learning</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="modal-section-title" style="color: #D4AF37; border-bottom-color: rgba(212, 175, 55, 0.3); margin-top: 1rem;">ENGINEERING PRINCIPLES</div>
+                        <ul class="dev-list gold-bullets">
+                            <li>Build With Purpose</li>
+                            <li>Design For Scalability</li>
+                            <li>User-Centered Experience</li>
+                            <li>Clean Architecture</li>
+                            <li>Intelligent Automation</li>
+                            <li>Continuous Innovation</li>
+                            <li>Real-World Problem Solving</li>
+                            <li>Performance Optimization</li>
+                            <li>Maintainable Engineering</li>
+                            <li>Future-Ready Design</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="modal-section-title" style="color: #4A90E2; border-bottom-color: rgba(74, 144, 226, 0.3);">PROJECT DEVELOPMENT APPROACH</div>
+                <div class="feature-cards-grid dev-approach-grid">
+                    <div class="feature-card dev-card">Data Analysis</div>
+                    <div class="feature-card dev-card">Machine Learning</div>
+                    <div class="feature-card dev-card">Intelligent Prediction Systems</div>
+                    <div class="feature-card dev-card">User Experience Design</div>
+                    <div class="feature-card dev-card">Modern Frontend Development</div>
+                    <div class="feature-card dev-card">Structured Software Engineering</div>
+                    <div class="feature-card dev-card">Visual Intelligence Dashboards</div>
+                    <div class="feature-card dev-card">Premium Branding Standards</div>
+                </div>
+
+                <div class="modal-section-title" style="color: #D4AF37; border-bottom-color: rgba(212, 175, 55, 0.3);">SIGNATURE SERIES DEVELOPMENT</div>
+                <div class="project-role-box dev-eco-box">
+                    <p><span class="gold-text">Mohammed Asjad Aliyan K (K. M. A²)</span> designs intelligent software products that align with the premium standards of the <span class="gold-text">K. M. A² Signature Series</span>.</p>
+                    <p>Each project is designed to demonstrate technical growth, innovation, creativity, and intelligent problem solving while maintaining a consistent premium identity.</p>
+                </div>
+
+                <div class="dev-philosophy-quote">
+                    "Technology becomes meaningful when intelligence, creativity, and usability work together."
+                    <div class="quote-sub">Software should not only function correctly but should also create engaging, efficient, and memorable experiences for users.</div>
+                </div>
+
+                <div class="modal-section-title" style="color: #4A90E2; border-bottom-color: rgba(74, 144, 226, 0.3);">FUTURE VISION</div>
+                <div class="project-role-box dev-vision-box">
+                    <p>To build increasingly intelligent software systems that combine:</p>
+                    <div class="vision-tags">
+                        <span class="vision-tag">Artificial Intelligence</span>
+                        <span class="vision-tag">Machine Learning</span>
+                        <span class="vision-tag">Predictive Analytics</span>
+                        <span class="vision-tag">Intelligent Automation</span>
+                        <span class="vision-tag">Modern Engineering Practices</span>
+                        <span class="vision-tag">Premium User Experiences</span>
+                    </div>
+                    <p style="margin-top: 1.5rem;">while continuously advancing the <span class="gold-text">K. M. A² Signature Series</span>.</p>
+                </div>
+                
+                <div class="bottom-close-container">
+                    <button class="bottom-close-btn cyan-close-btn" onclick="closeAboutDeveloper()">Close Developer Profile</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Intro Animation Overlay -->
+    <div id="project-intro-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 5, 10, 0.95); backdrop-filter: blur(10px); z-index: 11000; justify-content: center; align-items: center; flex-direction: column; opacity: 0; transition: opacity 0.5s ease;">
+        <img src="{{ url_for('static', filename='assets/KMA2 Silver Logo.jpeg') }}" id="project-intro-logo" style="width: 50px; opacity: 0; border-radius: 50%; box-shadow: 0 0 0 rgba(74, 144, 226, 0); transition: all 1.5s cubic-bezier(0.25, 0.8, 0.25, 1);">
+        <h2 id="project-intro-text" style="color: #4A90E2; font-family: 'Orbitron', sans-serif; opacity: 0; margin-top: 2rem; font-size: 1.5rem; letter-spacing: 2px; text-shadow: 0 0 15px rgba(74, 144, 226, 0.8); transition: opacity 1s ease; text-align: center;">Exploring the Project Architecture...</h2>
+    </div>
+
+    <!-- About Project Modal -->
+    <div class="signature-modal-overlay" id="project-modal" style="display:none;">
+        <div class="signature-modal-content developer-modal-content">
+            <button class="close-modal-btn" onclick="closeAboutProject()">×</button>
+            <div class="modal-header" style="display: flex; align-items: center; flex-direction: column;">
+                <img src="{{ url_for('static', filename='assets/KMA2 Silver Logo.jpeg') }}" alt="K. M. A² Logo" style="width: 50px; border-radius: 50%; margin-bottom: 1rem; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);">
+                <h2 style="font-size: 2rem; color: #FFF; text-align: center;">About Advanced Vehicle Pricing Intelligence System</h2>
+                <div class="modal-divider" style="background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.8), transparent);"></div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="modal-section-title" style="color: #4A90E2; border-bottom-color: rgba(74, 144, 226, 0.3);">PROJECT OVERVIEW</div>
+                <div class="project-role-box developer-box">
+                    <p>This project is an advanced machine learning based vehicle valuation platform.</p>
+                    <p>The system analyzes vehicle characteristics and market-related attributes to estimate intelligent price predictions.</p>
+                    <p>The platform demonstrates practical implementation of regression modeling, data preprocessing, feature engineering, visualization, and predictive analytics.</p>
+                    <p>Developed under the <span class="gold-text">K. M. A² Signature Series</span> ecosystem.</p>
+                    <p>Powered by the <span class="cyan-text">K. M. A² Intelligence Framework</span>.</p>
+                </div>
+
+                <div class="modal-section-title" style="color: #4A90E2; border-bottom-color: rgba(74, 144, 226, 0.3); margin-top: 2rem;">KEY FEATURES</div>
+                <div class="dev-grid">
+                    <div>
+                        <ul class="dev-list">
+                            <li><span class="cyan-text">🚗</span> Vehicle Data Analysis</li>
+                            <li><span class="cyan-text">📊</span> Market Trend Evaluation</li>
+                            <li><span class="cyan-text">⚙</span> Feature Engineering</li>
+                            <li><span class="cyan-text">🧠</span> Machine Learning Training</li>
+                            <li><span class="cyan-text">📁</span> Dataset Management</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="dev-list">
+                            <li><span class="gold-text">💰</span> Price Prediction Engine</li>
+                            <li><span class="gold-text">📈</span> Statistical Visualization</li>
+                            <li><span class="gold-text">📋</span> Prediction History</li>
+                            <li><span class="gold-text">📤</span> Export Capability</li>
+                            <li><span class="gold-text">✨</span> Premium User Experience</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="modal-section-title" style="color: #D4AF37; border-bottom-color: rgba(212, 175, 55, 0.3); margin-top: 2rem;">TECHNOLOGY HIGHLIGHTS</div>
+                <div class="feature-cards-grid dev-approach-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="feature-card dev-card">🐍 Python Development</div>
+                    <div class="feature-card dev-card">📚 Scikit-Learn Integration</div>
+                    <div class="feature-card dev-card">📊 Data Analytics Workflow</div>
+                    <div class="feature-card dev-card">📈 Interactive Visualization</div>
+                    <div class="feature-card dev-card">🧠 Regression Modeling</div>
+                    <div class="feature-card dev-card">⚡ Real-Time Prediction System</div>
+                </div>
+
+                <div class="modal-section-title" style="color: #4A90E2; border-bottom-color: rgba(74, 144, 226, 0.3); margin-top: 2rem;">PROJECT OBJECTIVES</div>
+                <div class="project-role-box dev-vision-box" style="padding-top: 2rem; padding-bottom: 2rem;">
+                    <ul class="dev-list gold-bullets" style="margin: 0; display: flex; flex-direction: column; align-items: center;">
+                        <li style="width: 80%; justify-content: center;">Accurate vehicle price estimation</li>
+                        <li style="width: 80%; justify-content: center;">Intelligent market value analysis</li>
+                        <li style="width: 80%; justify-content: center;">Practical machine learning implementation</li>
+                        <li style="width: 80%; justify-content: center;">Data-driven decision support</li>
+                        <li style="width: 80%; justify-content: center;">Educational and portfolio demonstration</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section-title" style="color: #D4AF37; border-bottom-color: rgba(212, 175, 55, 0.3); margin-top: 2rem;">PROJECT PHILOSOPHY</div>
+                <div class="dev-philosophy-quote">
+                    "Combining intelligent analytics, predictive modeling, and premium user experience into a unified vehicle valuation platform."
+                </div>
+
+                <div class="project-role-box developer-box" style="text-align: center; margin-top: 2rem; background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1);">
+                    <p style="font-size: 0.95rem; color: #A0A0A0; margin-bottom: 0.5rem;">Powered by:</p>
+                    <p class="cyan-text" style="font-size: 1.1rem; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; margin-bottom: 1.5rem;">K. M. A² Intelligence Framework</p>
+                    
+                    <p style="font-size: 0.95rem; color: #A0A0A0; margin-bottom: 0.5rem;">Part of:</p>
+                    <p class="gold-text" style="font-size: 1.1rem; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; margin-bottom: 1.5rem;">K. M. A² Signature Series</p>
+                    
+                    <p style="font-size: 0.95rem; color: #A0A0A0; margin-bottom: 0.5rem;">Developed within:</p>
+                    <p style="color: #FFF; font-size: 1.1rem; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; margin-bottom: 0;">K. M. A² Innovation Labs</p>
+                </div>
+
+                <div class="modal-section-title" style="color: #4A90E2; border-bottom-color: rgba(74, 144, 226, 0.3); margin-top: 3rem;">🏆 PROJECT RECOGNITION</div>
+                <div class="project-role-box developer-box" style="border-color: rgba(74, 144, 226, 0.4); box-shadow: 0 0 15px rgba(74, 144, 226, 0.1);">
+                    <p>This project was developed as part of the <span class="cyan-text">CodeAlpha</span> <span class="gold-text">Machine Learning Program</span>, serving as a practical implementation of intelligent <span class="cyan-text">vehicle price prediction</span>, data analytics, and <span class="gold-text">regression modeling</span> concepts.</p>
+                    <p>The system demonstrates real-world application of machine learning techniques, predictive analysis, feature engineering, and premium software design standards within a professional project environment.</p>
+                </div>
+
+                <div class="bottom-close-container">
+                    <button class="bottom-close-btn cyan-close-btn" onclick="closeAboutProject()">Close About Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Branding Showcase Modal -->
+    <div class="signature-modal-overlay" id="branding-showcase-modal" style="display:none; z-index: 12000;">
+        <div class="signature-modal-content developer-modal-content" style="max-width: 1200px; background: rgba(10, 10, 15, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 50px rgba(200, 107, 255, 0.15); display: flex; flex-direction: column; padding: 2rem 2rem 2rem 2rem; overflow: hidden; position: relative; border-radius: 12px; max-height: 90vh;">
+            
+            <button class="close-modal-btn" onclick="closeBrandingShowcase()" style="z-index: 10; top: 15px; right: 20px;">×</button>
+            
+            <div class="showcase-container">
+                
+                <!-- LEFT SIDE: Fixed Logo -->
+                <div class="showcase-logo-section">
+                    <!-- Soft background glow behind the logo -->
+                    <div style="position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 0;"></div>
+                    
+                    <img src="{{ url_for('static', filename='assets/KMA2 Silver Logo.jpeg') }}" alt="K. M. A² Logo" style="width: 320px; height: 320px; object-fit: cover; border-radius: 50%; box-shadow: 0 0 80px rgba(255, 255, 255, 0.2), 0 0 40px rgba(255, 255, 255, 0.4); position: relative; z-index: 1; animation: premiumBreathingGlow 6s infinite ease-in-out, showcaseFloat 6s infinite ease-in-out, zoomInFade 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;">
+                </div>
+
+                <!-- RIGHT SIDE: Scrollable Content -->
+                <div class="showcase-content-section">
+                    
+                    <h2 class="violet-text" style="font-size: 2.5rem; font-family: 'Rajdhani', sans-serif; letter-spacing: 2px; margin-top: 1rem; margin-bottom: 0.5rem; text-shadow: 0 0 15px rgba(200, 107, 255, 0.3);">👑 K. M. A² Signature Series</h2>
+                    <h3 style="color: #E0E0E0; font-size: 1.2rem; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; font-weight: 400; margin-bottom: 2.5rem; text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);">Powered by the <span class="violet-text">K. M. A² Intelligence Framework</span></h3>
+                    
+                    <!-- Cards Grid -->
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                        
+                        <!-- Card 1 -->
+                        <div class="violet-showcase-card" style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; background: rgba(200, 107, 255, 0.03); border: 1px solid rgba(200, 107, 255, 0.1); padding: 1rem; border-radius: 8px;">
+                            <h4 class="violet-text" style="font-size: 1.1rem; margin-bottom: 0.5rem; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px;"><span style="margin-right: 8px;">💎</span> Signature Series Project</h4>
+                            <ul style="margin: 0; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.3rem; list-style-type: disc; color: #C86BFF;">
+                                <li><span style="color: #A0A0A0; font-size: 0.95rem; font-family: 'Inter', sans-serif;">Premium Quality</span></li>
+                                <li><span style="color: #A0A0A0; font-size: 0.95rem; font-family: 'Inter', sans-serif;">Advanced Intelligence</span></li>
+                                <li><span style="color: #A0A0A0; font-size: 0.95rem; font-family: 'Inter', sans-serif;">Future Ready</span></li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Card 2 -->
+                        <div class="violet-showcase-card" style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; background: rgba(200, 107, 255, 0.03); border: 1px solid rgba(200, 107, 255, 0.1); padding: 1rem; border-radius: 8px;">
+                            <h4 class="violet-text" style="font-size: 1.1rem; margin-bottom: 0.5rem; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px;"><span style="margin-right: 8px;">🧠</span> Intelligence Framework</h4>
+                            <ul style="margin: 0; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.3rem; list-style-type: disc; color: #C86BFF;">
+                                <li><span style="color: #A0A0A0; font-size: 0.95rem; font-family: 'Inter', sans-serif;">Machine Learning</span></li>
+                                <li><span style="color: #A0A0A0; font-size: 0.95rem; font-family: 'Inter', sans-serif;">Data Analytics</span></li>
+                                <li><span style="color: #A0A0A0; font-size: 0.95rem; font-family: 'Inter', sans-serif;">Smart Systems</span></li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="violet-showcase-card" style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; background: rgba(200, 107, 255, 0.03); border: 1px solid rgba(200, 107, 255, 0.1); padding: 1rem; border-radius: 8px;">
+                            <h4 class="violet-text" style="font-size: 1.1rem; margin-bottom: 0.5rem; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px;"><span style="margin-right: 8px;">🛡</span> Innovation Labs</h4>
+                            <ul style="margin: 0; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.3rem; list-style-type: disc; color: #C86BFF;">
+                                <li><span style="color: #A0A0A0; font-size: 0.95rem; font-family: 'Inter', sans-serif;">Research</span></li>
+                                <li><span style="color: #A0A0A0; font-size: 0.95rem; font-family: 'Inter', sans-serif;">Development</span></li>
+                                <li><span style="color: #A0A0A0; font-size: 0.95rem; font-family: 'Inter', sans-serif;">Real-World Solutions</span></li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="violet-showcase-card" style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; background: rgba(200, 107, 255, 0.03); border: 1px solid rgba(200, 107, 255, 0.1); padding: 1rem; border-radius: 8px;">
+                            <h4 class="violet-text" style="font-size: 1.1rem; margin-bottom: 0.5rem; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px;"><span style="margin-right: 8px;">🚀</span> Code Alpha Project</h4>
+                            <ul style="margin: 0; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.3rem; list-style-type: disc; color: #C86BFF;">
+                                <li><span style="color: #A0A0A0; font-size: 0.95rem; font-family: 'Inter', sans-serif;">Code Alpha Machine Learning</span></li>
+                                <li><span style="color: #A0A0A0; font-size: 0.95rem; font-family: 'Inter', sans-serif;">Practical Industry Learning</span></li>
+                                <li><span style="color: #A0A0A0; font-size: 0.95rem; font-family: 'Inter', sans-serif;">Real-World ML Implementation</span></li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="violet-quote-box" style="margin: 0.5rem 0 1rem 0; padding: 1.5rem 2rem; text-align: center; font-size: 1.1rem; font-family: 'Rajdhani', sans-serif; color: #FFF; font-style: italic; font-weight: 500; letter-spacing: 1px;">
+                        "Delivering powerful intelligence, modern technology, and innovative solutions for a smarter tomorrow."
+                    </div>
+                    
+                    <div class="bottom-close-container" style="margin-top: 0.5rem; margin-bottom: 0.5rem; width: 100%; display: flex; justify-content: center;">
+                        <button class="bottom-close-btn" style="background: transparent; color: #FFF; border: 2px solid rgba(200, 107, 255, 0.4); border-radius: 4px; padding: 0.8rem 2.5rem; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; text-transform: uppercase;" onclick="closeBrandingShowcase()" onmouseover="this.style.background='rgba(200, 107, 255, 0.15)'; this.style.borderColor='#C86BFF'; this.style.boxShadow='0 0 20px rgba(200, 107, 255, 0.4)'" onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(200, 107, 255, 0.4)'; this.style.boxShadow='none'">Close</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

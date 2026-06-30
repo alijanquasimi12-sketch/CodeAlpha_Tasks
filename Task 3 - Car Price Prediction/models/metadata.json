@@ -1,0 +1,1 @@
+{"categorical_cols": ["Brand", "Model", "Fuel_Type", "Transmission"], "numerical_cols": ["Driven_kms", "Car_Age", "MPG", "Engine_Size", "Tax"], "best_model": "Gradient Boosting Regressor", "r2_score": 0.73253936897141}

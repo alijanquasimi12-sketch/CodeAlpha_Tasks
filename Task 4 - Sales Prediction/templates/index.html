@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KMA² Sales Prediction System</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css?v=24">
+</head>
+<body>
+
+    <!-- KMA² Startup Sequence -->
+    <div id="startup-screen">
+        <div class="startup-content">
+            <img src="/static/assets/KMA2 Silver Logo.jpeg" alt="K.M.A² Logo" class="kma-logo">
+            <div class="startup-headers">
+                <h1 class="fade-text delay-0">K. M. A<sup>2</sup></h1>
+                <h2 class="fade-text delay-1" style="color:#D4AF37;">KMA<sup>2</sup> Signature Series</h2>
+                <h3 class="fade-text delay-2" style="color: var(--text-muted);">Advanced Sales Prediction Intelligence System</h3>
+            </div>
+        </div>
+        <div class="bottom-branding fade-text delay-4">
+            <div class="rotating-text" id="loading-msg" style="margin-bottom: 5px;">Initializing Engine...</div>
+            <div class="loading-bar-container" style="position: relative; width: 300px; height: 3px; background: var(--border-glass); border-radius: 2px; margin: 0 auto 10px auto; overflow: hidden; display: block; padding: 0;">
+                <div class="loading-bar" id="progress-bar" style="position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--text-main); box-shadow: 0 0 10px var(--text-main); display: block; margin: 0; padding: 0;"></div>
+            </div>
+            <p id="powered-by-text" style="color:#4A90E2;">Powered by KMA<sup>2</sup> Technologies</p>
+            <p>Running on KMA<sup>2</sup> Intelligence Framework</p>
+        </div>
+    </div>
+
+    <!-- Main Application Wrapper -->
+    <div id="main-dashboard" style="display: none;">
+        
+        <!-- K.M.A² Signature Series Premium Top Header -->
+        <header class="kma-premium-header">
+            <div class="header-container">
+                <!-- Left Section -->
+                <div class="header-left">
+                    <img src="/static/assets/KMA2 Silver Logo.jpeg" alt="K.M.A² Logo" class="kma-header-logo" onclick="window.forceOpenLogoModal();">
+                    <div class="header-titles">
+                        <h1 class="premium-title">Advanced Sales Prediction Intelligence System</h1>
+                        <h2 class="premium-subtitle">Powered by the K.M.A² Intelligence Framework</h2>
+                        <h3 class="premium-signature-text">K.M.A² Signature Series Project</h3>
+                    </div>
+                </div>
+                
+                <!-- Right Section -->
+                <div class="header-right">
+                    <div class="signature-badge-emerald" id="signatureSeriesBtn" onclick="window.forceOpenSignatureModal();" data-tooltip="View Signature Details">
+                        <i class="fas fa-crown signature-crown"></i> K.M.A² Signature Series
+                    </div>
+                    <button class="settings-btn" id="settingsBtn" aria-label="Settings" data-tooltip="Advanced Settings Center">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <nav>
+                    <ul id="nav-menu">
+                        <li data-target="home" class="active">Home</li>
+                        <li data-target="dataset">Dataset Explorer</li>
+                        <li data-target="analysis">Data Analysis</li>
+                        <li data-target="impact">Advertising Impact</li>
+                        <li data-target="model">Model Training</li>
+                        <li data-target="prediction">Sales Prediction</li>
+                        <li data-target="insights">Business Insights</li>
+                        <li data-target="decision-center">AI Decision Center</li>
+                        <li data-target="report-center">Executive Report Center</li>
+                        <li data-target="scenario-comparison">AI Scenario Comparison</li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="content-area">
+                
+                <!-- Section: Home -->
+                <section id="home" class="dashboard-section active-section">
+                    
+                    <!-- Premium Hero Section -->
+                    <div class="hero-section glass-card">
+                        <div id="particles-container"></div>
+                        <div class="hero-content">
+                            <h2 class="hero-title">Advanced Sales Prediction Intelligence System</h2>
+                            <p class="hero-subtitle">Developed for CodeAlpha using advanced Machine Learning techniques to forecast future sales performance through intelligent advertising budget analysis.</p>
+                            <div class="hero-badge">
+                                <i class="fas fa-crown"></i> K.M.A² Signature Series
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Project Overview Cards -->
+                    <div class="overview-grid">
+                        <div class="overview-card premium-hover">
+                            <i class="fas fa-database overview-icon clr-cyan"></i>
+                            <div class="overview-number count-up" data-target="200">0</div>
+                            <div class="overview-label">Dataset Size (Rows)</div>
+                        </div>
+                        <div class="overview-card premium-hover">
+                            <i class="fas fa-brain overview-icon clr-emerald"></i>
+                            <div class="overview-number">LR</div>
+                            <div class="overview-label">Machine Learning Model</div>
+                        </div>
+                        <div class="overview-card premium-hover">
+                            <i class="fas fa-bullseye overview-icon clr-gold"></i>
+                            <div class="overview-number count-up-percent" data-target="98.2">0.0</div>
+                            <div class="overview-label">Prediction R² Score</div>
+                        </div>
+                        <div class="overview-card premium-hover">
+                            <i class="fas fa-satellite-dish overview-icon clr-cyan"></i>
+                            <div class="overview-number count-up" data-target="3">0</div>
+                            <div class="overview-label">Supported Advertising Channels</div>
+                        </div>
+                        <div class="overview-card premium-hover">
+                            <i class="fas fa-chart-line overview-icon clr-emerald"></i>
+                            <div class="overview-number">Live</div>
+                            <div class="overview-label">AI Powered Analytics</div>
+                        </div>
+                        <div class="overview-card premium-hover">
+                            <i class="fas fa-gavel overview-icon clr-gold"></i>
+                            <div class="overview-number">Active</div>
+                            <div class="overview-label">Executive Decision Engine</div>
+                        </div>
+                    </div>
+
+                    <!-- Feature Highlights Section -->
+                    <h3 class="section-divider-title">Core Intelligence Capabilities</h3>
+                    <div class="feature-highlight-grid">
+                        <div class="feature-card premium-hover">
+                            <div class="feature-icon-wrapper"><i class="fas fa-chart-pie"></i></div>
+                            <h4>Sales Forecasting</h4>
+                            <p>Accurately predict future revenue streams based on multi-channel marketing expenditures.</p>
+                        </div>
+                        <div class="feature-card premium-hover">
+                            <div class="feature-icon-wrapper"><i class="fas fa-sliders-h"></i></div>
+                            <h4>Budget Optimization</h4>
+                            <p>Identify inefficiencies and strategically reallocate capital to maximize return on investment.</p>
+                        </div>
+                        <div class="feature-card premium-hover">
+                            <div class="feature-icon-wrapper"><i class="fas fa-robot"></i></div>
+                            <h4>AI Decision Center</h4>
+                            <p>Receive algorithmic, executive-level business recommendations automatically generated from prediction data.</p>
+                        </div>
+                        <div class="feature-card premium-hover">
+                            <div class="feature-icon-wrapper"><i class="fas fa-lightbulb"></i></div>
+                            <h4>Business Insights</h4>
+                            <p>Extract deep statistical relationships between TV, Radio, and Newspaper advertising impacts.</p>
+                        </div>
+                        <div class="feature-card premium-hover">
+                            <div class="feature-icon-wrapper"><i class="fas fa-briefcase"></i></div>
+                            <h4>Executive Analytics</h4>
+                            <p>Translates complex machine learning arrays into high-level C-Suite actionable intelligence.</p>
+                        </div>
+                        <div class="feature-card premium-hover">
+                            <div class="feature-icon-wrapper"><i class="fas fa-project-diagram"></i></div>
+                            <h4>Interactive Visualizations</h4>
+                            <p>Explore datasets and mathematical relationships through beautifully rendered charts.</p>
+                        </div>
+                    </div>
+
+                    <!-- Machine Learning Pipeline -->
+                    <h3 class="section-divider-title">Algorithmic Workflow</h3>
+                    <div class="pipeline-workflow glass-card">
+                        <div class="pipeline-step">
+                            <i class="fas fa-file-csv"></i>
+                            <span>Dataset</span>
+                        </div>
+                        <div class="pipeline-connector"><i class="fas fa-chevron-right"></i></div>
+                        
+                        <div class="pipeline-step">
+                            <i class="fas fa-broom"></i>
+                            <span>Data Cleaning</span>
+                        </div>
+                        <div class="pipeline-connector"><i class="fas fa-chevron-right"></i></div>
+                        
+                        <div class="pipeline-step">
+                            <i class="fas fa-cogs"></i>
+                            <span>Model Training</span>
+                        </div>
+                        <div class="pipeline-connector"><i class="fas fa-chevron-right"></i></div>
+                        
+                        <div class="pipeline-step">
+                            <i class="fas fa-magic"></i>
+                            <span>Prediction</span>
+                        </div>
+                        <div class="pipeline-connector"><i class="fas fa-chevron-right"></i></div>
+                        
+                        <div class="pipeline-step">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Intelligence</span>
+                        </div>
+                        <div class="pipeline-connector"><i class="fas fa-chevron-right"></i></div>
+                        
+                        <div class="pipeline-step">
+                            <i class="fas fa-gavel"></i>
+                            <span>Decision</span>
+                        </div>
+                    </div>
+
+                    <!-- Why This Project Panel -->
+                    <div class="why-project-panel glass-card premium-hover">
+                        <h3><i class="fas fa-shield-alt clr-emerald" style="margin-right:10px;"></i> Executive Project Value</h3>
+                        <div class="why-project-list">
+                            <div class="why-item"><i class="fas fa-check-circle clr-emerald"></i> <span><strong>Accurate Sales Forecasting:</strong> Utilizes established statistical models to reduce financial uncertainty.</span></div>
+                            <div class="why-item"><i class="fas fa-check-circle clr-emerald"></i> <span><strong>Intelligent Advertising Analysis:</strong> Isolates the exact effectiveness of specific media campaigns.</span></div>
+                            <div class="why-item"><i class="fas fa-check-circle clr-emerald"></i> <span><strong>Executive Business Decision Support:</strong> Bridges the gap between raw data and strategic leadership.</span></div>
+                            <div class="why-item"><i class="fas fa-check-circle clr-emerald"></i> <span><strong>Interactive Dashboard:</strong> Provides a frictionless, world-class user experience.</span></div>
+                            <div class="why-item"><i class="fas fa-check-circle clr-emerald"></i> <span><strong>Professional Visualization:</strong> Renders complex mathematics into easily digestible aesthetics.</span></div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- Section: Dataset Explorer -->
+                <section id="dataset" class="dashboard-section">
+                    <div class="glass-card">
+                        <h2>Dataset Explorer (Advertising.csv)</h2>
+                        <p>Preview of the loaded dataset.</p>
+                        <div class="table-responsive">
+                            <table id="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>TV Budget</th>
+                                        <th>Radio Budget</th>
+                                        <th>Newspaper Budget</th>
+                                        <th>Sales</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Injected via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Data Analysis -->
+                <section id="analysis" class="dashboard-section">
+                    <div class="glass-card">
+                        <h2>Exploratory Data Analysis (EDA)</h2>
+                        <p>Statistical summaries and distribution of the advertising data.</p>
+                        <div class="chart-container">
+                            <canvas id="distribution-chart"></canvas>
+                        </div>
+                        <div class="stats-box" id="eda-summary">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Advertising Impact -->
+                <section id="impact" class="dashboard-section">
+                    <div class="glass-card">
+                        <h2>Advertising Impact & Correlation Analysis</h2>
+                        <p>Analyzing the relationship between each advertising channel and final sales.</p>
+                        <div class="chart-grid">
+                            <div class="chart-wrapper">
+                                <h3>TV vs Sales</h3>
+                                <canvas id="scatter-tv"></canvas>
+                            </div>
+                            <div class="chart-wrapper">
+                                <h3>Radio vs Sales</h3>
+                                <canvas id="scatter-radio"></canvas>
+                            </div>
+                            <div class="chart-wrapper">
+                                <h3>Newspaper vs Sales</h3>
+                                <canvas id="scatter-newspaper"></canvas>
+                            </div>
+                        </div>
+                        <div class="glass-panel" id="correlation-matrix">
+                            <!-- Correlation stats -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Model Training -->
+                <section id="model" class="dashboard-section">
+                    <div class="glass-card">
+                        <h2>Regression Model Evaluation</h2>
+                        <p>A Multiple Linear Regression model was trained on an 80/20 train-test split.</p>
+                        <div class="metrics-grid" id="model-metrics">
+                            <!-- Injected via JS -->
+                        </div>
+                        <h3>Feature Importance (Coefficients)</h3>
+                        <div class="chart-container" style="height: 300px;">
+                            <canvas id="coefficients-chart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Sales Prediction -->
+                <section id="prediction" class="dashboard-section">
+                    <div class="glass-card">
+                        <h2>Interactive Sales Predictor</h2>
+                        <p>Input your advertising budgets to forecast sales outcomes in real-time.</p>
+                        
+                        <div class="prediction-layout">
+                            <form id="prediction-form">
+                                <div class="form-group">
+                                    <label for="tv-input">TV Advertising Budget ($K)</label>
+                                    <input type="number" id="tv-input" step="0.1" value="100.0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="radio-input">Radio Advertising Budget ($K)</label>
+                                    <input type="number" id="radio-input" step="0.1" value="25.0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="news-input">Newspaper Advertising Budget ($K)</label>
+                                    <input type="number" id="news-input" step="0.1" value="25.0" required>
+                                </div>
+                                <button type="submit" class="kma-btn">Calculate Forecast</button>
+                            </form>
+                            
+                            <div class="prediction-result-box">
+                                <h3>Forecasted Sales Output</h3>
+                                <div class="result-value" id="pred-result">--</div>
+                                <p class="result-label">Thousands of Units</p>
+                            </div>
+                        </div>
+
+                        <!-- Executive Business Recommendation Engine -->
+                        <div class="exec-recommendation-panel" id="execRecPanel">
+                            <div class="exec-header">
+                                <h4><i class="fas fa-chart-pie" style="color: #00f2fe; margin-right: 10px;"></i> Executive Summary</h4>
+                                <div class="exec-status-badge" id="execStatusBadge">Evaluating...</div>
+                            </div>
+                            
+                            <div class="exec-grid">
+                                <div class="exec-card">
+                                    <h5><i class="fas fa-bullseye exec-icon"></i> Marketing Recommendation</h5>
+                                    <p id="execMarketingRec">--</p>
+                                </div>
+                                <div class="exec-card">
+                                    <h5><i class="fas fa-search-dollar exec-icon"></i> Budget Analysis</h5>
+                                    <p id="execBudgetAnalysis">--</p>
+                                </div>
+                                <div class="exec-card">
+                                    <h5><i class="fas fa-sliders-h exec-icon"></i> Optimization Suggestion</h5>
+                                    <p id="execOptimization">--</p>
+                                </div>
+                            </div>
+                            
+                            <div class="exec-stats-row">
+                                <div class="exec-stat-item">
+                                    <span class="stat-label">Model Reliability</span>
+                                    <span class="stat-value clr-emerald" id="execConfidence">89.9%</span>
+                                </div>
+                                <div class="exec-stat-item">
+                                    <span class="stat-label">Risk Level</span>
+                                    <span class="stat-value" id="execRisk">--</span>
+                                </div>
+                                <div class="exec-stat-item">
+                                    <span class="stat-label">Expected Business Impact</span>
+                                    <span class="stat-value" id="execImpact">--</span>
+                                </div>
+                            </div>
+
+                            <div class="exec-conclusion">
+                                <h5><i class="fas fa-briefcase exec-icon"></i> Professional Executive Conclusion</h5>
+                                <p id="execConclusion">--</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Smart Advertising Budget Optimizer -->
+                        <div class="exec-recommendation-panel" id="smartOptimizerPanel">
+                            <div class="exec-header">
+                                <h4><i class="fas fa-magic" style="color: #00f2fe; margin-right: 10px;"></i> Smart Advertising Budget Optimizer</h4>
+                            </div>
+                            
+                            <div class="exec-grid optimizer-grid">
+                                <div class="exec-card opt-card">
+                                    <h5><i class="fas fa-tv exec-icon"></i> TV Advertising</h5>
+                                    <div class="opt-action-badge" id="optTvBadge">Evaluating...</div>
+                                    <p class="opt-desc" id="optTvDesc">--</p>
+                                </div>
+                                <div class="exec-card opt-card">
+                                    <h5><i class="fas fa-broadcast-tower exec-icon"></i> Radio Advertising</h5>
+                                    <div class="opt-action-badge" id="optRadioBadge">Evaluating...</div>
+                                    <p class="opt-desc" id="optRadioDesc">--</p>
+                                </div>
+                                <div class="exec-card opt-card">
+                                    <h5><i class="far fa-newspaper exec-icon"></i> Newspaper Advertising</h5>
+                                    <div class="opt-action-badge" id="optNewsBadge">Evaluating...</div>
+                                    <p class="opt-desc" id="optNewsDesc">--</p>
+                                </div>
+                            </div>
+                            
+                            <div class="exec-stats-row">
+                                <div class="exec-stat-item">
+                                    <span class="stat-label">Estimated Sales Improvement</span>
+                                    <span class="stat-value clr-cyan" id="optEstImprovement">--</span>
+                                    <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 5px;">*Analytical estimate based on optimization</span>
+                                </div>
+                                <div class="exec-stat-item">
+                                    <span class="stat-label">Budget Efficiency</span>
+                                    <span class="stat-value" id="optEfficiency">--</span>
+                                </div>
+                            </div>
+
+                            <div class="exec-conclusion">
+                                <h5><i class="fas fa-chess-knight exec-icon"></i> ROI Strategy</h5>
+                                <p id="optStrategy">--</p>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Budget Allocation Visualizer -->
+                        <div class="exec-recommendation-panel" id="visualizerPanel" style="margin-top: 30px;">
+                            <div class="exec-header">
+                                <h4><i class="fas fa-chart-pie" style="color: #00f2fe; margin-right: 10px;"></i> Interactive Budget Allocation Visualizer</h4>
+                            </div>
+                            
+                            <div style="width: 100%; max-width: 400px; margin: 20px auto;">
+                                <canvas id="budgetChart"></canvas>
+                            </div>
+
+                            <div class="exec-grid optimizer-grid">
+                                <div class="exec-card opt-card">
+                                    <h5>Largest Investment Channel</h5>
+                                    <div class="opt-action-badge opt-maintain" id="visLargestName">--</div>
+                                    <p class="opt-desc clr-cyan" id="visLargestVal" style="font-weight: 700; font-size: 1.1rem; margin-top: 5px;">--</p>
+                                    <p class="opt-desc" id="visLargestPct">--</p>
+                                </div>
+                                <div class="exec-card opt-card">
+                                    <h5>Smallest Investment Channel</h5>
+                                    <div class="opt-action-badge opt-reduce" id="visSmallestName">--</div>
+                                    <p class="opt-desc clr-cyan" id="visSmallestVal" style="font-weight: 700; font-size: 1.1rem; margin-top: 5px;">--</p>
+                                    <p class="opt-desc" id="visSmallestPct">--</p>
+                                </div>
+                                <div class="exec-card opt-card">
+                                    <h5>Total Advertising Budget</h5>
+                                    <p class="opt-desc clr-emerald" id="visTotalVal" style="font-size: 1.8rem; font-weight: 700; margin-top: 15px;">--</p>
+                                </div>
+                                <div class="exec-card opt-card">
+                                    <h5>Budget Diversification</h5>
+                                    <p class="opt-desc clr-gold" id="visDiversification" style="font-size: 1.3rem; font-weight: 700; margin-top: 15px;">--</p>
+                                </div>
+                                <div class="exec-card opt-card">
+                                    <h5>Allocation Quality Indicator</h5>
+                                    <p class="opt-desc" id="visQuality" style="font-size: 1.3rem; font-weight: 700; margin-top: 15px;">--</p>
+                                </div>
+                            </div>
+                            
+                            <div class="exec-conclusion" style="margin-top: 20px;">
+                                <h5><i class="fas fa-file-alt exec-icon"></i> Budget Distribution Summary</h5>
+                                <p id="visSummary">--</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Business Insights -->
+                <section id="insights" class="dashboard-section">
+                    <div class="glass-card insights-container" style="position: relative; overflow: hidden;">
+                        <!-- Background glow effect -->
+                        <div class="insight-bg-glow"></div>
+                        
+                        <h2 style="position: relative; z-index: 2;"><i class="fas fa-lightbulb" style="color: #f1c40f; margin-right: 10px;"></i> Premium Business Insights</h2>
+                        
+                        <!-- Empty State -->
+                        <div id="insightsEmptyState" class="empty-state-container" style="text-align: center; padding: 60px 20px; color: var(--text-muted); position: relative; z-index: 2;">
+                            <div class="empty-state-icon-wrapper">
+                                <i class="fas fa-chart-network fa-pulse" style="font-size: 4rem; color: rgba(241, 196, 15, 0.6); margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(241, 196, 15, 0.4));"></i>
+                            </div>
+                            <h3 style="font-size: 1.5rem; color: var(--text-main); margin-bottom: 10px;">Intelligence Engine Awaiting Input</h3>
+                            <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 450px; margin: 0 auto;">Generate a Sales Prediction to unlock dynamically generated business insights, strategy timelines, and executive intelligence.</p>
+                        </div>
+
+                        <!-- Data State (Hidden by default) -->
+                        <div id="insightsDataState" style="display: none; position: relative; z-index: 2; margin-top: 30px;">
+                            
+                            <!-- AI Recommendation Chips -->
+                            <div class="ai-chips-container" id="aiChipsContainer">
+                                <!-- Injected via JS -->
+                            </div>
+
+                            <!-- Executive Insight Summary KPIs -->
+                            <div class="report-kpi-grid" style="margin-bottom: 30px;">
+                                <div class="report-kpi-card premium-hover">
+                                    <div class="kpi-label"><i class="fas fa-trophy clr-gold" style="margin-right:5px;"></i> Strongest Channel</div>
+                                    <div class="kpi-value clr-emerald" id="insightStrongest">--</div>
+                                </div>
+                                <div class="report-kpi-card premium-hover">
+                                    <div class="kpi-label"><i class="fas fa-exclamation-triangle clr-gold" style="margin-right:5px;"></i> Weakest Channel</div>
+                                    <div class="kpi-value clr-cyan" id="insightWeakest">--</div>
+                                </div>
+                                <div class="report-kpi-card premium-hover">
+                                    <div class="kpi-label"><i class="fas fa-chart-line clr-gold" style="margin-right:5px;"></i> Opportunity Size</div>
+                                    <div class="kpi-value" id="insightOpportunity">--</div>
+                                </div>
+                                <div class="report-kpi-card premium-hover">
+                                    <div class="kpi-label"><i class="fas fa-robot clr-gold" style="margin-right:5px;"></i> AI Confidence</div>
+                                    <div class="kpi-value" id="insightConfidence">--</div>
+                                </div>
+                            </div>
+
+                            <!-- Business Strategy Timeline -->
+                            <h3 class="section-divider-title" style="margin-top: 20px; font-size: 1.2rem;">Strategic Optimization Timeline</h3>
+                            <div class="strategy-timeline glass-panel premium-hover">
+                                <div class="timeline-node">
+                                    <div class="timeline-dot bg-cyan"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">Current Position</div>
+                                        <div class="timeline-desc" id="timelineCurrent">Analyzing current expenditure...</div>
+                                    </div>
+                                </div>
+                                <div class="timeline-arrow"><i class="fas fa-long-arrow-alt-right"></i></div>
+                                <div class="timeline-node">
+                                    <div class="timeline-dot bg-gold"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">Recommended Action</div>
+                                        <div class="timeline-desc" id="timelineAction">Waiting for intelligence...</div>
+                                    </div>
+                                </div>
+                                <div class="timeline-arrow"><i class="fas fa-long-arrow-alt-right"></i></div>
+                                <div class="timeline-node">
+                                    <div class="timeline-dot bg-emerald"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">Expected Improvement</div>
+                                        <div class="timeline-desc" id="timelineImprovement">Calculating potential...</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AI Insight Cards Grid -->
+                            <h3 class="section-divider-title" style="margin-top: 40px; font-size: 1.2rem;">Detailed Business Insights</h3>
+                            <div class="insights-grid" id="insightsGrid">
+                                <!-- Cards Injected via JS -->
+                            </div>
+                            
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: AI Decision Center -->
+                <section id="decision-center" class="dashboard-section">
+                    <div class="glass-card">
+                        <h2><i class="fas fa-brain" style="color: #00f2fe; margin-right: 10px;"></i> AI Decision Center</h2>
+                        
+                        <!-- Empty State -->
+                        <div id="decisionEmptyState" class="empty-state-container" style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
+                            <div class="empty-state-icon-wrapper">
+                                <i class="fas fa-brain fa-pulse" style="font-size: 4rem; color: rgba(46, 204, 113, 0.6); margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(46, 204, 113, 0.4));"></i>
+                            </div>
+                            <h3 style="font-size: 1.5rem; color: var(--text-main); margin-bottom: 10px;">Awaiting Prediction Data</h3>
+                            <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 400px; margin: 0 auto;">Generate a Sales Prediction to unlock premium AI Decision Center insights and strategic executive recommendations.</p>
+                        </div>
+
+                        <!-- Data State (Hidden by default) -->
+                        <div id="decisionDataState" style="display: none; margin-top: 30px;">
+                            
+                            <!-- Executive Insight Banner -->
+                            <div class="insight-banner" id="aiInsightBanner">
+                                <i class="fas fa-magic insight-banner-icon"></i>
+                                <span id="aiInsightBannerText">--</span>
+                            </div>
+
+                            <div class="exec-grid optimizer-grid">
+                                
+                                <!-- Card 1: Score -->
+                                <div class="exec-card opt-card premium-hover tooltip-container" style="text-align: center;">
+                                    <h5>Executive Decision Score</h5>
+                                    <div class="tooltip-text">This score combines prediction quality, budget efficiency, and expected business performance.</div>
+                                    <div class="gauge-container" id="aiScoreGaugeContainer">
+                                        <svg class="circular-gauge" width="140" height="140" viewBox="0 0 140 140">
+                                            <circle class="gauge-bg" cx="70" cy="70" r="60" stroke-width="12" fill="none" />
+                                            <circle class="gauge-progress" id="aiScoreGaugePath" cx="70" cy="70" r="60" stroke-width="12" fill="none" transform="rotate(-90 70 70)" stroke-dasharray="377" stroke-dashoffset="377" />
+                                        </svg>
+                                        <div class="gauge-content">
+                                            <span id="aiScoreValue" class="gauge-number">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="opt-action-badge opt-maintain status-badge" id="aiScoreRating">--</div>
+                                </div>
+
+                                <!-- Card 2: Growth Outlook -->
+                                <div class="exec-card opt-card premium-hover tooltip-container">
+                                    <h5><i class="fas fa-arrow-trend-up status-icon" id="icon-growth"></i> Business Growth Outlook</h5>
+                                    <div class="tooltip-text">Projected trajectory based on current advertising spend efficiency.</div>
+                                    <p class="opt-desc status-text" id="aiGrowth" style="font-size: 1.3rem; font-weight: 700; margin-top: 15px;">--</p>
+                                </div>
+
+                                <!-- Card 3: Risk Assessment -->
+                                <div class="exec-card opt-card premium-hover tooltip-container">
+                                    <h5><i class="fas fa-shield-alt status-icon" id="icon-risk"></i> Business Risk Assessment</h5>
+                                    <div class="tooltip-text">Probability of underperforming or failing to achieve ROI targets.</div>
+                                    <p class="opt-desc status-text" id="aiRisk" style="font-size: 1.3rem; font-weight: 700; margin-top: 10px;">--</p>
+                                    <p class="opt-desc" id="aiRiskDesc" style="margin-top: 5px; font-size: 0.85rem;">--</p>
+                                </div>
+
+                                <!-- Card 4: Efficiency -->
+                                <div class="exec-card opt-card premium-hover tooltip-container">
+                                    <h5><i class="fas fa-bullseye status-icon" id="icon-eff"></i> Marketing Investment Efficiency</h5>
+                                    <div class="tooltip-text">Measure of how effectively capital is being converted into revenue.</div>
+                                    <p class="opt-desc status-text" id="aiEfficiency" style="font-size: 1.3rem; font-weight: 700; margin-top: 10px;">--</p>
+                                    <p class="opt-desc" id="aiEfficiencyDesc" style="margin-top: 5px; font-size: 0.85rem;">--</p>
+                                </div>
+
+                                <!-- Card 5: Best Channel -->
+                                <div class="exec-card opt-card premium-hover tooltip-container">
+                                    <h5><i class="fas fa-trophy status-icon" id="icon-channel"></i> Best Performing Channel</h5>
+                                    <div class="tooltip-text">The advertising medium contributing the most to overall success.</div>
+                                    <p class="opt-desc status-text" id="aiBestChannel" style="font-size: 1.3rem; font-weight: 700; margin-top: 10px;">--</p>
+                                    <p class="opt-desc" id="aiBestChannelDesc" style="margin-top: 5px; font-size: 0.85rem;">--</p>
+                                </div>
+                                
+                                <!-- Card 6: Strategic Recommendation -->
+                                <div class="exec-card opt-card premium-hover tooltip-container" style="grid-column: span 1;">
+                                    <h5><i class="fas fa-lightbulb status-icon" id="icon-rec" style="color: #f1c40f;"></i> Executive Strategic Recommendation</h5>
+                                    <div class="tooltip-text">Actionable directive based on algorithmic performance analysis.</div>
+                                    <p class="opt-desc" id="aiStrategicRec" style="margin-top: 10px; font-size: 0.95rem; line-height: 1.5;">--</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Card 7: AI Decision Summary -->
+                            <div class="exec-conclusion premium-hover" style="margin-top: 20px;">
+                                <h5><i class="fas fa-briefcase exec-icon status-icon" id="icon-summary"></i> AI Decision Summary</h5>
+                                <p id="aiSummary" style="font-size: 1.05rem; line-height: 1.6;">--</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Section: Executive Report Center -->
+                <section id="report-center" class="dashboard-section">
+                    <div class="glass-card report-container">
+                        
+                        <!-- Empty State -->
+                        <div id="execReportEmptyState" class="empty-state-container" style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
+                            <div class="empty-state-icon-wrapper">
+                                <i class="fas fa-file-contract fa-pulse" style="font-size: 4rem; color: rgba(46, 204, 113, 0.6); margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(46, 204, 113, 0.4));"></i>
+                            </div>
+                            <h3 style="font-size: 1.5rem; color: var(--text-main); margin-bottom: 10px;">Awaiting Prediction Data</h3>
+                            <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 400px; margin: 0 auto;">Generate a Sales Prediction to unlock the Executive Report.</p>
+                        </div>
+
+                        <!-- Data State (Hidden by default) -->
+                        <div id="execReportDataState" style="display: none;">
+                            
+                            <!-- Header -->
+                            <div class="report-header">
+                                <div class="report-header-left">
+                                    <h2 style="margin:0; font-family: 'Orbitron', sans-serif; font-size: 1.8rem; text-transform: uppercase;">Executive Summary Report</h2>
+                                    <p class="report-date" id="reportDate" style="color: var(--text-muted); font-size: 0.9rem; margin-top:5px;">--</p>
+                                </div>
+                                <div class="report-header-right" style="text-align: right;">
+                                    <div class="hero-badge" style="margin-bottom: 5px;"><i class="fas fa-crown"></i> K.M.A² Intelligence</div>
+                                    <div class="opt-action-badge status-badge" id="reportStatusBadge" style="display: inline-block;">--</div>
+                                </div>
+                            </div>
+                            <hr class="report-divider">
+
+                            <!-- Snapshot Grid -->
+                            <div class="report-snapshot-grid">
+                                <div class="report-snapshot-card">
+                                    <i class="fas fa-dollar-sign report-icon clr-emerald"></i>
+                                    <div class="report-val clr-emerald" id="reportSalesVal">--</div>
+                                    <div class="report-label">Predicted Sales Revenue</div>
+                                </div>
+                                <div class="report-snapshot-card">
+                                    <i class="fas fa-wallet report-icon clr-cyan"></i>
+                                    <div class="report-val" id="reportBudgetVal">--</div>
+                                    <div class="report-label">Total Advertising Budget</div>
+                                </div>
+                                <div class="report-snapshot-card">
+                                    <i class="fas fa-bullseye report-icon clr-gold"></i>
+                                    <div class="report-val" id="reportConfidenceVal">--</div>
+                                    <div class="report-label">Model Confidence (R²)</div>
+                                </div>
+                                <div class="report-snapshot-card">
+                                    <i class="fas fa-trophy report-icon" id="reportChannelIcon" style="color: #f39c12;"></i>
+                                    <div class="report-val" id="reportBestChannelVal" style="font-size:1.4rem;">--</div>
+                                    <div class="report-label">Best Performing Channel</div>
+                                </div>
+                            </div>
+
+                            <!-- Performance Overview -->
+                            <h3 class="section-divider-title" style="margin-top: 30px;">Business Performance Overview</h3>
+                            <div class="report-kpi-grid">
+                                <div class="report-kpi-card">
+                                    <div class="kpi-label">Growth Outlook</div>
+                                    <div class="kpi-value status-text" id="reportGrowth">--</div>
+                                </div>
+                                <div class="report-kpi-card">
+                                    <div class="kpi-label">Risk Level</div>
+                                    <div class="kpi-value status-text" id="reportRisk">--</div>
+                                </div>
+                                <div class="report-kpi-card">
+                                    <div class="kpi-label">Investment Efficiency</div>
+                                    <div class="kpi-value status-text" id="reportEfficiency">--</div>
+                                </div>
+                                <div class="report-kpi-card">
+                                    <div class="kpi-label">Executive Score</div>
+                                    <div class="kpi-value status-text" id="reportScore">--</div>
+                                </div>
+                            </div>
+
+                            <!-- Budget Allocation -->
+                            <h3 class="section-divider-title" style="margin-top: 30px;">Budget Allocation Breakdown</h3>
+                            <div class="budget-breakdown-container">
+                                <!-- TV -->
+                                <div class="budget-row">
+                                    <div class="budget-info">
+                                        <span><i class="fas fa-tv" style="width:20px; text-align:center;"></i> TV Allocation</span>
+                                        <span id="reportTvVal">--</span>
+                                    </div>
+                                    <div class="budget-progress-bg">
+                                        <div class="budget-progress-fill" id="reportTvBar" style="width: 0%; background: #2ecc71;"></div>
+                                    </div>
+                                    <div class="budget-pct" id="reportTvPct">--%</div>
+                                </div>
+                                <!-- Radio -->
+                                <div class="budget-row">
+                                    <div class="budget-info">
+                                        <span><i class="fas fa-broadcast-tower" style="width:20px; text-align:center;"></i> Radio Allocation</span>
+                                        <span id="reportRadioVal">--</span>
+                                    </div>
+                                    <div class="budget-progress-bg">
+                                        <div class="budget-progress-fill" id="reportRadioBar" style="width: 0%; background: #00f2fe;"></div>
+                                    </div>
+                                    <div class="budget-pct" id="reportRadioPct">--%</div>
+                                </div>
+                                <!-- Newspaper -->
+                                <div class="budget-row">
+                                    <div class="budget-info">
+                                        <span><i class="far fa-newspaper" style="width:20px; text-align:center;"></i> Newspaper Allocation</span>
+                                        <span id="reportNewsVal">--</span>
+                                    </div>
+                                    <div class="budget-progress-bg">
+                                        <div class="budget-progress-fill" id="reportNewsBar" style="width: 0%; background: #f39c12;"></div>
+                                    </div>
+                                    <div class="budget-pct" id="reportNewsPct">--%</div>
+                                </div>
+                            </div>
+
+                            <!-- Insights & Recommendations -->
+                            <div class="report-bottom-grid">
+                                <div class="report-panel">
+                                    <h4><i class="fas fa-brain clr-emerald"></i> AI Business Insights</h4>
+                                    <ul class="report-list">
+                                        <li id="reportInsight1">--</li>
+                                        <li id="reportInsight2">--</li>
+                                        <li id="reportInsight3">--</li>
+                                    </ul>
+                                </div>
+                                <div class="report-panel">
+                                    <h4><i class="fas fa-lightbulb" style="color:#f1c40f;"></i> Executive Recommendation</h4>
+                                    <p id="reportRecommendation" style="line-height: 1.6; font-size: 0.95rem;">--</p>
+                                </div>
+                            </div>
+
+                            <div class="exec-conclusion" style="margin-top: 20px;">
+                                <h5><i class="fas fa-gavel exec-icon status-icon" id="reportSummaryIcon"></i> Final Executive Conclusion</h5>
+                                <p id="reportSummaryText" style="font-size: 1.05rem; line-height: 1.6;">--</p>
+                            </div>
+
+                            <!-- Export Center (Hidden in Print) -->
+                            <div class="export-center no-print" style="margin-top: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                                <button class="btn-premium" onclick="window.print();" style="margin: 0 10px;">
+                                    <i class="fas fa-print"></i> Print Report
+                                </button>
+                                <button class="btn-premium" onclick="window.print();" style="margin: 0 10px;">
+                                    <i class="fas fa-file-pdf"></i> Export as PDF
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: About -->
+                <section id="about" class="dashboard-section">
+                    <div class="glass-card">
+                        <h2>About This Project</h2>
+                        <p><strong>Internship:</strong> CodeAlpha Data Science</p>
+                        <p><strong>Task 4:</strong> Sales Prediction using Python</p>
+                        <ul class="about-list">
+                            <li>Predict future sales based on advertising spend (TV, Radio, Newspaper).</li>
+                            <li>Data cleaning, transformation, and Exploratory Data Analysis.</li>
+                            <li>Machine Learning with Scikit-Learn (Multiple Linear Regression).</li>
+                            <li>Provides actionable insights for business marketing strategies.</li>
+                        </ul>
+                        <p class="mt-4"><strong>UI Design:</strong> K.M.A² Signature Series Custom Interface</p>
+                    </div>
+                </section>
+                
+                <!-- Section: Scenario Comparison -->
+                <section id="scenario-comparison" class="dashboard-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-balance-scale"></i> AI Scenario Comparison</h2>
+                        <p>Compare multiple advertising strategies side-by-side to determine the optimal business decision.</p>
+                    </div>
+
+                    <div class="scenario-grid">
+                        <!-- Scenario A -->
+                        <div class="scenario-card glass-card">
+                            <h3>Scenario A</h3>
+                            <div class="input-group">
+                                <label><i class="fas fa-tv"></i> TV Budget ($)</label>
+                                <input type="number" id="scenA_tv" placeholder="e.g. 150" class="premium-input">
+                            </div>
+                            <div class="input-group">
+                                <label><i class="fas fa-broadcast-tower"></i> Radio Budget ($)</label>
+                                <input type="number" id="scenA_radio" placeholder="e.g. 30" class="premium-input">
+                            </div>
+                            <div class="input-group">
+                                <label><i class="far fa-newspaper"></i> Newspaper Budget ($)</label>
+                                <input type="number" id="scenA_news" placeholder="e.g. 20" class="premium-input">
+                            </div>
+                        </div>
+
+                        <!-- Scenario B -->
+                        <div class="scenario-card glass-card">
+                            <h3>Scenario B</h3>
+                            <div class="input-group">
+                                <label><i class="fas fa-tv"></i> TV Budget ($)</label>
+                                <input type="number" id="scenB_tv" placeholder="e.g. 200" class="premium-input">
+                            </div>
+                            <div class="input-group">
+                                <label><i class="fas fa-broadcast-tower"></i> Radio Budget ($)</label>
+                                <input type="number" id="scenB_radio" placeholder="e.g. 40" class="premium-input">
+                            </div>
+                            <div class="input-group">
+                                <label><i class="far fa-newspaper"></i> Newspaper Budget ($)</label>
+                                <input type="number" id="scenB_news" placeholder="e.g. 10" class="premium-input">
+                            </div>
+                        </div>
+
+                        <!-- Scenario C -->
+                        <div class="scenario-card glass-card">
+                            <h3>Scenario C</h3>
+                            <div class="input-group">
+                                <label><i class="fas fa-tv"></i> TV Budget ($)</label>
+                                <input type="number" id="scenC_tv" placeholder="e.g. 100" class="premium-input">
+                            </div>
+                            <div class="input-group">
+                                <label><i class="fas fa-broadcast-tower"></i> Radio Budget ($)</label>
+                                <input type="number" id="scenC_radio" placeholder="e.g. 50" class="premium-input">
+                            </div>
+                            <div class="input-group">
+                                <label><i class="far fa-newspaper"></i> Newspaper Budget ($)</label>
+                                <input type="number" id="scenC_news" placeholder="e.g. 50" class="premium-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 30px 0;">
+                        <button id="compareScenariosBtn" class="compare-btn-premium" onclick="compareScenarios()">
+                            <i class="fas fa-bolt"></i> Compare Scenarios
+                        </button>
+                    </div>
+
+                    <div id="comparison-results" style="display: none;">
+                        <!-- Winner Analysis -->
+                        <div id="winner-card" class="glass-card winner-card-premium stagger-reveal reveal-1" style="margin-bottom: 30px; text-align: center; padding: 25px;">
+                            <div class="trophy-icon"><i class="fas fa-trophy" style="font-size: 2.5rem; color: #f1c40f; margin-bottom: 15px;"></i></div>
+                            <h3 style="color: #2ecc71; margin-bottom: 10px; font-size: 1.8rem; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                Best Overall Scenario: <span id="winner-name"></span>
+                            </h3>
+                            <p id="winner-reason" style="color: var(--text-muted); font-size: 1.1rem; max-width: 800px; margin: 0 auto; line-height: 1.6;"></p>
+                        </div>
+
+                        <!-- KPI Comparison Cards -->
+                        <div class="insights-grid stagger-reveal reveal-2" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 30px;" id="kpi-comparison-grid">
+                            <!-- Populated dynamically -->
+                        </div>
+
+                        <!-- Visual Comparison -->
+                        <div class="insights-grid" style="grid-template-columns: 2fr 1fr; margin-bottom: 30px;" id="charts-grid-container">
+                            <div class="glass-card chart-container-premium stagger-reveal reveal-3">
+                                <h3><i class="fas fa-chart-bar"></i> Sales & Budget Comparison</h3>
+                                <div style="position: relative; height: 300px; width: 100%;">
+                                    <canvas id="comparisonBarChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="glass-card chart-container-premium stagger-reveal reveal-4">
+                                <h3><i class="fas fa-chart-pie"></i> Efficiency Radar</h3>
+                                <div style="position: relative; height: 300px; width: 100%;">
+                                    <canvas id="comparisonRadarChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Executive Recommendation -->
+                        <div class="exec-recommendation-premium stagger-reveal reveal-5">
+                            <h3><i class="fas fa-robot"></i> AI Executive Recommendation</h3>
+                            <p id="ai-scenario-recommendation"></p>
+                        </div>
+                    </div>
+                </section>
+                
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Infallible function to force the modal open
+        window.forceOpenSignatureModal = function() {
+            var modal = document.getElementById('signatureSeriesModal');
+            if (modal) {
+                modal.classList.add('active');
+                modal.style.opacity = '1';
+                modal.style.pointerEvents = 'auto';
+            }
+        };
+        
+        window.forceCloseSignatureModal = function() {
+            var modal = document.getElementById('signatureSeriesModal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.opacity = '0';
+                modal.style.pointerEvents = 'none';
+            }
+        };
+
+        window.forceOpenAboutProjectModal = function() {
+            const aboutProjectModal = document.getElementById('aboutProjectModal');
+            const aboutProjectCinematicIntro = document.getElementById('aboutProjectCinematicIntro');
+            const aboutProjectMainContent = document.getElementById('aboutProjectMainContent');
+
+            if(aboutProjectModal) {
+                aboutProjectCinematicIntro.classList.remove('fade-out');
+                aboutProjectMainContent.classList.remove('visible');
+                aboutProjectModal.classList.add('active');
+
+                setTimeout(() => {
+                    aboutProjectCinematicIntro.classList.add('fade-out');
+                    aboutProjectMainContent.classList.add('visible');
+                }, 7500);
+            }
+        };
+
+        window.forceCloseAboutProjectModal = function() {
+            const aboutProjectModal = document.getElementById('aboutProjectModal');
+            const aboutProjectCinematicIntro = document.getElementById('aboutProjectCinematicIntro');
+            const aboutProjectMainContent = document.getElementById('aboutProjectMainContent');
+            
+            if(aboutProjectModal) {
+                aboutProjectModal.classList.remove('active');
+                setTimeout(() => {
+                    aboutProjectCinematicIntro.classList.remove('fade-out');
+                    aboutProjectMainContent.classList.remove('visible');
+                }, 500);
+            }
+        };
+
+        window.forceOpenLogoModal = function() {
+            var modal = document.getElementById('logoInfoModal');
+            if (modal) {
+                modal.classList.add('active');
+                modal.style.opacity = '1';
+                modal.style.pointerEvents = 'auto';
+            }
+        };
+        
+        window.forceCloseLogoModal = function() {
+            var modal = document.getElementById('logoInfoModal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.opacity = '0';
+                modal.style.pointerEvents = 'none';
+            }
+        };
+    </script>
+    
+    <!-- KMA2 Logo Information Modal -->
+    <div class="signature-modal-overlay" id="logoInfoModal">
+        <div class="signature-modal-content glass-card" style="padding: 0; max-width: 1000px; overflow: hidden; display: flex; align-items: stretch; flex-direction: row; min-height: 600px;">
+            <!-- Left Side: Logo -->
+            <div class="logo-modal-left" style="flex: 0 0 40%; background: rgba(0, 0, 0, 0.4); border-right: 1px solid rgba(46, 204, 113, 0.2); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                <!-- Decorative background elements -->
+                <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(46, 204, 113, 0.15) 0%, transparent 70%); animation: slowSpinGreen 20s linear infinite;"></div>
+                
+                <img src="/static/assets/KMA2 Silver Logo.jpeg" alt="KMA2 Logo Large" style="width: 220px; border-radius: 50%; box-shadow: 0 0 50px rgba(46, 204, 113, 0.8); position: relative; z-index: 2; animation: floatLogoGreen 3s ease-in-out infinite; border: 2px solid rgba(46, 204, 113, 0.5);">
+            </div>
+
+            <!-- Right Side: Content -->
+            <div class="logo-modal-right" style="padding: 3rem; flex: 1; display: flex; flex-direction: column; overflow-y: auto; box-sizing: border-box;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+                    <div>
+                        <h2 style="color: #D4AF37; margin-bottom: 0.25rem; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; font-weight: 700; font-size: 2rem; margin-top: 0;">📊 K.M.A² Signature Series</h2>
+                        <h5 style="color: var(--text-muted); font-family: 'Rajdhani', sans-serif; margin-top: 0; font-size: 1.25rem; font-weight: 500;">Powered by the K.M.A² Intelligence Framework</h5>
+                    </div>
+                    <div class="signature-modal-close" id="logoInfoCloseTop" onclick="window.forceCloseLogoModal();" style="position: static; font-size: 1.5rem; line-height: 1; cursor: pointer; transition: all 0.3s ease;"><i class="fas fa-times"></i></div>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--text-main); margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif; font-weight: 600; font-size: 1.5rem; margin-top: 0;">Advanced Sales Prediction Intelligence Platform</h4>
+                    <p style="color: #2ecc71; margin-bottom: 0.25rem; font-weight: 700; margin-top: 0; text-shadow: 0 0 5px rgba(46, 204, 113, 0.4); font-size: 1rem;">Professional AI Sales Forecasting & Business Analytics System</p>
+                    <p style="color: #2ecc71; margin: 0; font-weight: 700; text-shadow: 0 0 5px rgba(46, 204, 113, 0.4); font-size: 1rem;">Interactive Machine Learning Sales Intelligence</p>
+                </div>
+
+                <!-- 4 Feature Cards -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; flex-grow: 1;">
+                    <!-- Card 1 -->
+                    <div class="dev-interactive-card" style="padding: 1.5rem; text-align: left;">
+                        <h6 style="color: #D4AF37; margin: 0 0 1rem 0; font-family: 'Orbitron', sans-serif; font-weight: 600; font-size: 1rem;"><i class="fas fa-gem" style="color: #2ecc71; margin-right: 0.5rem; text-shadow: 0 0 5px rgba(46, 204, 113, 0.4);"></i>Signature Series Project</h6>
+                        <ul style="color: var(--text-muted); margin: 0; padding-left: 1.2rem; line-height: 1.8; font-size: 1rem;">
+                            <li>Premium Enterprise Quality</li>
+                            <li>Interactive Dashboard</li>
+                            <li>Professional User Experience</li>
+                        </ul>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="dev-interactive-card" style="padding: 1.5rem; text-align: left;">
+                        <h6 style="color: #D4AF37; margin: 0 0 1rem 0; font-family: 'Orbitron', sans-serif; font-weight: 600; font-size: 1rem;"><i class="fas fa-brain" style="color: #2ecc71; margin-right: 0.5rem; text-shadow: 0 0 5px rgba(46, 204, 113, 0.4);"></i>Intelligence Framework</h6>
+                        <ul style="color: var(--text-muted); margin: 0; padding-left: 1.2rem; line-height: 1.8; font-size: 1rem;">
+                            <li>Machine Learning</li>
+                            <li>Predictive Analytics</li>
+                            <li>Statistical Intelligence</li>
+                        </ul>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="dev-interactive-card" style="padding: 1.5rem; text-align: left;">
+                        <h6 style="color: #D4AF37; margin: 0 0 1rem 0; font-family: 'Orbitron', sans-serif; font-weight: 600; font-size: 1rem;"><i class="fas fa-shield-alt" style="color: #2ecc71; margin-right: 0.5rem; text-shadow: 0 0 5px rgba(46, 204, 113, 0.4);"></i>Innovation Labs</h6>
+                        <ul style="color: var(--text-muted); margin: 0; padding-left: 1.2rem; line-height: 1.8; font-size: 1rem;">
+                            <li>AI Research</li>
+                            <li>Business Forecasting</li>
+                            <li>Intelligent Dashboard Engineering</li>
+                        </ul>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="dev-interactive-card" style="padding: 1.5rem; text-align: left;">
+                        <h6 style="color: #D4AF37; margin: 0 0 1rem 0; font-family: 'Orbitron', sans-serif; font-weight: 600; font-size: 1rem;"><i class="fas fa-file-alt" style="color: #2ecc71; margin-right: 0.5rem; text-shadow: 0 0 5px rgba(46, 204, 113, 0.4);"></i>CodeAlpha Project</h6>
+                        <ul style="color: var(--text-muted); margin: 0; padding-left: 1.2rem; line-height: 1.8; font-size: 1rem;">
+                            <li>Developed for CodeAlpha</li>
+                            <li>Professional Internship Project</li>
+                            <li>Real Advertising Dataset</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="dev-quote-section" style="padding: 3rem 2rem; border-top: 1px solid rgba(46, 204, 113, 0.2); text-align: center; position: relative;">
+                    <i class="fas fa-quote-left dev-quote-mark" style="font-size: 4rem; color: rgba(46, 204, 113, 0.3); position: absolute; top: 0; left: 50%; transform: translateX(-50%); text-shadow: 0 0 20px rgba(46, 204, 113, 0.8);"></i>
+                    <p class="dev-quote-text" style="font-size: 1.2rem; margin-top: 1.5rem; font-style: italic; color: var(--text-main); line-height: 1.8; position: relative; z-index: 2;">"Transforming advertising data into meaningful intelligence through premium analytics, interactive forecasting, and data-driven decision making."</p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <button class="btn-emerald-outline" id="logoInfoCloseBottom" onclick="window.forceCloseLogoModal();">Close Details</button>
+                </div>
+            </div>
+        </div>
+    </div> <!-- Close signature-modal-overlay for logoInfoModal -->
+    
+    <!-- KMA² Signature Series Premium Information Panel — Sales Prediction Edition -->
+    <div class="signature-modal-overlay" id="signatureSeriesModal">
+        <div class="sig-panel">
+
+            <!-- Close Button (Top Right) -->
+            <button class="sig-panel-close-top" id="signatureSeriesCloseTop" onclick="window.forceCloseSignatureModal();" aria-label="Close Panel">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- ═══════════════════════════════════════════════════
+                 SECTION 1 — PREMIUM HERO
+                 ═══════════════════════════════════════════════════ -->
+            <div class="sig-hero">
+                <div class="sig-hero-glow"></div>
+                <i class="fas fa-crown sig-hero-crown"></i>
+                <h1 class="sig-hero-title">K.M.A² Signature Series</h1>
+                <p class="sig-hero-tagline">The Pinnacle of Enterprise Software Engineering</p>
+                <div class="sig-hero-divider"></div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════
+                 SECTION 2 — ENTERPRISE VISION STATEMENT
+                 ═══════════════════════════════════════════════════ -->
+            <div class="sig-body">
+
+                <div class="sig-vision-card">
+                    <p>
+                        The <span class="clr-gold fw-700">K.M.A² Signature Series</span> defines a new paradigm in
+                        <span class="clr-emerald fw-700">Enterprise</span> software craftsmanship. Conceived and engineered by
+                        <span class="clr-gold fw-700">K.M.A² Technologies</span>, every Signature Series product embodies
+                        uncompromising <span class="clr-cyan fw-700">Architecture</span>, deep computational
+                        <span class="clr-emerald fw-700">Intelligence</span>, and extraordinary attention to user experience.
+                        We architect solutions that transcend conventional development — fusing
+                        <span class="clr-blue fw-700">Machine Learning</span>, adaptive
+                        <span class="clr-cyan fw-700">Scalability</span>, and visionary design into a cohesive,
+                        <span class="clr-emerald fw-700">Future-Ready</span> digital ecosystem.
+                    </p>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════
+                     SECTION 3 — ENGINEERING PHILOSOPHY (3 Pillars)
+                     ═══════════════════════════════════════════════════ -->
+                <h3 class="sig-section-heading">Engineering Philosophy</h3>
+                <div class="sig-pillars-grid">
+                    <!-- Pillar 1 -->
+                    <div class="sig-pillar-card">
+                        <div class="sig-pillar-icon"><i class="fas fa-gem"></i></div>
+                        <h4>Precision Craftsmanship</h4>
+                        <p>Every interface, algorithm, and data pipeline is engineered with meticulous precision — producing software that is as structurally elegant as it is functionally powerful.</p>
+                    </div>
+                    <!-- Pillar 2 -->
+                    <div class="sig-pillar-card">
+                        <div class="sig-pillar-icon"><i class="fas fa-brain"></i></div>
+                        <h4>Cognitive Engineering</h4>
+                        <p>Our systems are infused with <span class="clr-emerald">Intelligence</span> at every layer — from predictive <span class="clr-cyan">Analytics</span> to adaptive decision engines that evolve with your data.</p>
+                    </div>
+                    <!-- Pillar 3 -->
+                    <div class="sig-pillar-card">
+                        <div class="sig-pillar-icon"><i class="fas fa-rocket"></i></div>
+                        <h4>Relentless Innovation</h4>
+                        <p>We don't iterate — we reinvent. Each release pushes the boundary of what <span class="clr-emerald">Enterprise</span> platforms can achieve, setting new benchmarks for <span class="clr-cyan">Performance</span>.</p>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════
+                     SECTION 4 — INTELLIGENT ECOSYSTEM OVERVIEW
+                     ═══════════════════════════════════════════════════ -->
+                <h3 class="sig-section-heading">Intelligent Ecosystem Integration</h3>
+                <div class="sig-ecosystem-stack">
+                    <!-- Ecosystem Card 1 -->
+                    <div class="sig-eco-card">
+                        <div class="sig-eco-icon"><i class="fas fa-microchip"></i></div>
+                        <div class="sig-eco-body">
+                            <h4><span class="clr-gold">K.M.A² Intelligence Framework</span></h4>
+                            <p>The cognitive nucleus that orchestrates advanced data processing, powers sophisticated analytical models, and delivers exceptional computational <span class="clr-cyan">Performance</span> across every operational layer.</p>
+                        </div>
+                    </div>
+                    <!-- Ecosystem Card 2 -->
+                    <div class="sig-eco-card">
+                        <div class="sig-eco-icon"><i class="fas fa-flask"></i></div>
+                        <div class="sig-eco-body">
+                            <h4><span class="clr-gold">K.M.A² Innovation Labs</span></h4>
+                            <p>Our dedicated research division that relentlessly explores the frontier of <span class="clr-blue">AI-driven</span> engineering, prototyping breakthrough methodologies and transformative <span class="clr-emerald">Innovation</span>.</p>
+                        </div>
+                    </div>
+                    <!-- Ecosystem Card 3 -->
+                    <div class="sig-eco-card sig-eco-card--highlight">
+                        <div class="sig-eco-icon"><i class="fas fa-network-wired"></i></div>
+                        <div class="sig-eco-body">
+                            <h4><span class="clr-gold">K.M.A² Nexus</span></h4>
+                            <p>The interconnected deployment platform ensuring seamless system orchestration, intelligent <span class="clr-emerald">Automation</span>, and flawless integration across diverse <span class="clr-emerald">Enterprise</span> environments.</p>
+                        </div>
+                    </div>
+                    <!-- Ecosystem Card 4 -->
+                    <div class="sig-eco-card">
+                        <div class="sig-eco-icon"><i class="fas fa-server"></i></div>
+                        <div class="sig-eco-body">
+                            <h4><span class="clr-gold">K.M.A² Legacy Systems</span></h4>
+                            <p>The foundational collection of flagship software products, establishing uncompromising standards for long-term maintainability, structural resilience, and professional excellence.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════
+                     SECTION 5 — PREMIUM SOFTWARE DNA (4×2 Grid)
+                     ═══════════════════════════════════════════════════ -->
+                <h3 class="sig-section-heading">Premium Software DNA
+                    <span class="sig-heading-accent"></span>
+                </h3>
+                <div class="sig-dna-grid">
+                    <div class="sig-dna-tile">
+                        <i class="fas fa-building"></i>
+                        <span>Enterprise<br>Ready</span>
+                    </div>
+                    <div class="sig-dna-tile sig-dna-tile--glow">
+                        <i class="fas fa-brain"></i>
+                        <span>AI<br>Optimized</span>
+                    </div>
+                    <div class="sig-dna-tile">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Intelligent<br>Architecture</span>
+                    </div>
+                    <div class="sig-dna-tile">
+                        <i class="fas fa-gem"></i>
+                        <span>Premium<br>UX</span>
+                    </div>
+                    <div class="sig-dna-tile">
+                        <i class="fas fa-bolt"></i>
+                        <span>High<br>Performance</span>
+                    </div>
+                    <div class="sig-dna-tile">
+                        <i class="fas fa-cubes"></i>
+                        <span>Modular<br>Design</span>
+                    </div>
+                    <div class="sig-dna-tile">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Reliable<br>Systems</span>
+                    </div>
+                    <div class="sig-dna-tile">
+                        <i class="fas fa-rocket"></i>
+                        <span>Future<br>Ready</span>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════
+                     SECTION 6 — AI & ENTERPRISE INTELLIGENCE (2-col)
+                     ═══════════════════════════════════════════════════ -->
+                <h3 class="sig-section-heading">AI &amp; Enterprise Intelligence</h3>
+                <div class="sig-intel-row">
+                    <div class="sig-intel-card">
+                        <i class="fas fa-chart-line sig-intel-icon"></i>
+                        <h4>Predictive Analytics Engine</h4>
+                        <p>Harness the power of <span class="clr-emerald">Machine Learning</span> models trained on real-world datasets. Our systems transform raw advertising data into high-confidence sales forecasts, delivering actionable <span class="clr-cyan">Intelligence</span> at scale.</p>
+                    </div>
+                    <div class="sig-intel-card">
+                        <i class="fas fa-cogs sig-intel-icon"></i>
+                        <h4>Autonomous Optimization</h4>
+                        <p>Built-in <span class="clr-emerald">Automation</span> pipelines continuously refine model accuracy, optimize resource allocation, and ensure every dashboard metric reflects the highest standard of <span class="clr-cyan">Performance</span>.</p>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════
+                     SECTION 7 — ENTERPRISE STANDARDS MANIFESTO
+                     ═══════════════════════════════════════════════════ -->
+                <div class="sig-manifesto">
+                    <i class="fas fa-quote-left sig-manifesto-mark"></i>
+                    <p>
+                        The <span class="clr-gold fw-700">K.M.A²</span> ecosystem is a unified constellation of premium intelligent software solutions — each meticulously engineered for maximum <span class="clr-cyan fw-700">Performance</span>, bold <span class="clr-emerald fw-700">Innovation</span>, limitless <span class="clr-cyan fw-700">Scalability</span>, and extraordinary user experiences. Excellence is not an aspiration; it is our fundamental operating standard.
+                    </p>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════
+                     CLOSE BUTTON
+                     ═══════════════════════════════════════════════════ -->
+                <div class="sig-close-wrapper">
+                    <button class="sig-close-btn" id="signatureSeriesCloseBottom" onclick="window.forceCloseSignatureModal();">Close Panel</button>
+                </div>
+            </div><!-- .sig-body -->
+        </div><!-- .sig-panel -->
+    </div>
+
+    <!-- Advanced Settings Center -->
+    <div class="settings-modal-overlay" id="settingsModal">
+        <div class="adv-settings-panel">
+            <div class="adv-settings-header">
+                <div class="adv-header-left">
+                    <h2><i class="fas fa-cog fa-spin-hover" style="color: #D4AF37; margin-right: 10px;"></i> Advanced Settings Center</h2>
+                    <p>Configure your Premium Enterprise Experience</p>
+                </div>
+                <button class="settings-close-btn" id="settingsCloseBtn" aria-label="Close Settings">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="adv-settings-body">
+                <!-- Sidebar Navigation -->
+                <div class="adv-settings-sidebar">
+                    <button class="adv-settings-tab active" data-tab="appearance"><i class="fas fa-paint-brush"></i> Appearance</button>
+                    <button class="adv-settings-tab" data-tab="animation"><i class="fas fa-magic"></i> Animation Controls</button>
+                    <button class="adv-settings-tab" data-tab="dashboard"><i class="fas fa-columns"></i> Dashboard Personalization</button>
+                    <button class="adv-settings-tab" data-tab="notifications"><i class="fas fa-bell"></i> Notification Preferences</button>
+                    <button class="adv-settings-tab" data-tab="report"><i class="fas fa-file-contract"></i> Executive Report</button>
+                    <button class="adv-settings-tab" data-tab="ai"><i class="fas fa-brain"></i> AI Intelligence</button>
+                    <button class="adv-settings-tab" data-tab="performance"><i class="fas fa-tachometer-alt"></i> Performance Settings</button>
+                    <button class="adv-settings-tab" data-tab="about"><i class="fas fa-info-circle"></i> About & Credits</button>
+                </div>
+
+                <!-- Content Area -->
+                <div class="adv-settings-content">
+                    
+                    <!-- 1. Appearance -->
+                    <div class="adv-settings-section active" id="tab-appearance">
+                        <h3 class="adv-settings-section-title">Theme Configuration</h3>
+                        <div class="adv-settings-card">
+                            <div class="theme-options">
+                                <label class="theme-option">
+                                    <input type="radio" name="theme-select" value="dark" checked>
+                                    <div class="theme-option-box">
+                                        <i class="fas fa-moon"></i>
+                                        <span>Dark Theme<br><small>(Default)</small></span>
+                                    </div>
+                                </label>
+                                <label class="theme-option">
+                                    <input type="radio" name="theme-select" value="light">
+                                    <div class="theme-option-box">
+                                        <i class="fas fa-sun"></i>
+                                        <span>Light Theme<br><small>(Clean)</small></span>
+                                    </div>
+                                </label>
+                                <label class="theme-option premium-theme">
+                                    <input type="radio" name="theme-select" value="midnight">
+                                    <div class="theme-option-box">
+                                        <i class="fas fa-star"></i>
+                                        <span>Premium Midnight<br><small>(K.M.A² Exclusive)</small></span>
+                                    </div>
+                                </label>
+                            </div>
+                            <p class="adv-settings-desc"><i class="fas fa-info-circle clr-cyan"></i> The selected theme is applied instantly with a smooth transition.</p>
+                        </div>
+                    </div>
+
+                    <!-- 2. Animation Controls -->
+                    <div class="adv-settings-section" id="tab-animation">
+                        <h3 class="adv-settings-section-title">Animation Dynamics</h3>
+                        <div class="adv-settings-grid">
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4>Enable Animations</h4>
+                                    <p>Master switch for all UI animations.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-anim-enable" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                            <div class="adv-settings-card">
+                                <h4>Animation Speed</h4>
+                                <p style="margin-bottom: 10px;">Select global animation playback speed.</p>
+                                <div class="custom-select-wrapper">
+                                    <select id="setting-anim-speed" class="adv-select">
+                                        <option value="slow">Slow (Luxurious)</option>
+                                        <option value="normal" selected>Normal (Balanced)</option>
+                                        <option value="fast">Fast (Snappy)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4>Smooth Page Transitions</h4>
+                                    <p>Fade effects when navigating sections.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-anim-transitions" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4>Hover Glow Effects</h4>
+                                    <p>Premium glowing auras on elements.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-anim-glow" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Dashboard Personalization -->
+                    <div class="adv-settings-section" id="tab-dashboard">
+                        <h3 class="adv-settings-section-title">Interface Layout</h3>
+                        <div class="adv-settings-grid">
+                            <div class="adv-settings-card">
+                                <h4>Dashboard Density</h4>
+                                <p style="margin-bottom: 10px;">Adjust spacing and component sizes.</p>
+                                <div class="custom-select-wrapper">
+                                    <select id="setting-dash-density" class="adv-select">
+                                        <option value="comfortable" selected>Comfortable (Spacious)</option>
+                                        <option value="compact">Compact (Data Dense)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4>Show Dashboard Tips</h4>
+                                    <p>Display helpful tooltips and guides.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-dash-tips" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4>Sticky Header</h4>
+                                    <p>Keep the KMA² header visible.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-dash-sticky" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4>Scroll-to-Top Button</h4>
+                                    <p>Enable quick navigation to top.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-dash-scrolltop" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Notification Preferences -->
+                    <div class="adv-settings-section" id="tab-notifications">
+                        <h3 class="adv-settings-section-title">Alert Management</h3>
+                        <div class="adv-settings-grid">
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4><i class="fas fa-check-circle clr-emerald"></i> Success Notifications</h4>
+                                    <p>Display alerts for successful actions.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-notif-success" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4><i class="fas fa-exclamation-triangle clr-gold"></i> Warning Notifications</h4>
+                                    <p>Display alerts for potential issues.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-notif-warn" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4><i class="fas fa-times-circle clr-red" style="color: #ff4757;"></i> Error Notifications</h4>
+                                    <p>Display alerts for system errors.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-notif-err" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4><i class="fas fa-info-circle clr-cyan"></i> Completion Messages</h4>
+                                    <p>Toast messages after long processes.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-notif-comp" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Executive Report Preferences -->
+                    <div class="adv-settings-section" id="tab-report">
+                        <h3 class="adv-settings-section-title">Report Configuration</h3>
+                        <div class="adv-settings-grid">
+                            <div class="adv-settings-card">
+                                <h4>Default Report Theme</h4>
+                                <p style="margin-bottom: 10px;">Select color scheme for exports.</p>
+                                <div class="custom-select-wrapper">
+                                    <select id="setting-rep-theme" class="adv-select">
+                                        <option value="match" selected>Match App Theme</option>
+                                        <option value="dark">Always Dark</option>
+                                        <option value="light">Always Light (Print)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4>Show Company Branding</h4>
+                                    <p>Include K.M.A² logos in reports.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-rep-brand" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4>Include Executive Summary</h4>
+                                    <p>Generate high-level summary.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-rep-exec" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4>Include Charts</h4>
+                                    <p>Embed data visualizations.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-rep-charts" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                            <div class="adv-settings-card flex-between" style="grid-column: 1 / -1;">
+                                <div class="adv-info">
+                                    <h4>Include AI Recommendations</h4>
+                                    <p>Append strategic insights to the executive document.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-rep-recs" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. AI Intelligence Settings -->
+                    <div class="adv-settings-section" id="tab-ai">
+                        <h3 class="adv-settings-section-title">Cognitive Engine</h3>
+                        <div class="adv-settings-grid">
+                            <div class="adv-settings-card" style="grid-column: 1 / -1;">
+                                <h4>Prediction Detail Level</h4>
+                                <p style="margin-bottom: 15px;">Adjust the depth of analysis provided by the AI.</p>
+                                <div class="ai-detail-levels">
+                                    <label class="ai-level">
+                                        <input type="radio" name="ai-detail" value="basic">
+                                        <div class="ai-level-box">
+                                            <h5>Basic</h5>
+                                            <p>Essential numbers only</p>
+                                        </div>
+                                    </label>
+                                    <label class="ai-level">
+                                        <input type="radio" name="ai-detail" value="standard" checked>
+                                        <div class="ai-level-box">
+                                            <h5>Standard</h5>
+                                            <p>Balanced insights</p>
+                                        </div>
+                                    </label>
+                                    <label class="ai-level">
+                                        <input type="radio" name="ai-detail" value="advanced">
+                                        <div class="ai-level-box">
+                                            <h5>Advanced</h5>
+                                            <p>Deep statistical breakdowns</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4>Enable AI Suggestions</h4>
+                                    <p>Contextual prompts across the app.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-ai-sugg" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4>Business Recommendations</h4>
+                                    <p>Strategic executive advice.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-ai-bus" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                            <div class="adv-settings-card flex-between">
+                                <div class="adv-info">
+                                    <h4>Optimization Tips</h4>
+                                    <p>Budget reallocation guidance.</p>
+                                </div>
+                                <label class="premium-switch">
+                                    <input type="checkbox" id="setting-ai-opt" checked>
+                                    <span class="premium-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7. Performance Settings -->
+                    <div class="adv-settings-section" id="tab-performance">
+                        <h3 class="adv-settings-section-title">System Resources</h3>
+                        <div class="adv-settings-grid">
+                            <div class="adv-settings-card" style="grid-column: 1 / -1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                                    <div>
+                                        <h4>Current Rendering Mode</h4>
+                                        <p>Active hardware acceleration profile.</p>
+                                    </div>
+                                    <div class="render-badge" id="current-render-mode">Quality (Hardware Accelerated)</div>
+                                </div>
+                            </div>
+                            
+                            <div class="adv-settings-card" style="grid-column: 1 / -1;">
+                                <h4>Performance Profile</h4>
+                                <p style="margin-bottom: 10px;">Select how the application utilizes system resources.</p>
+                                <div class="custom-select-wrapper">
+                                    <select id="setting-perf-profile" class="adv-select" style="width: 100%;">
+                                        <option value="quality" selected>Quality Mode (Maximum visuals & animations)</option>
+                                        <option value="balanced">Balanced Mode (Optimal mix of visuals and speed)</option>
+                                        <option value="high">High Performance Mode (Disables complex effects)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8. About -->
+                    <div class="adv-settings-section" id="tab-about">
+                        <div class="about-branding-header text-center">
+                            <img src="/static/assets/KMA2 Silver Logo.jpeg" alt="KMA2 Logo" class="about-logo">
+                            <h2 style="font-family: 'Orbitron', sans-serif; color: #D4AF37; margin-bottom: 5px; letter-spacing: 2px;">K.M.A² Signature Series</h2>
+                            <h4 style="color: var(--text-muted); font-weight: 500;">Advanced Sales Prediction Intelligence System</h4>
+                        </div>
+                        
+                        <div class="about-grid mt-4">
+                            <div class="about-card">
+                                <h5><i class="fas fa-info-circle clr-cyan"></i> Project Details</h5>
+                                <ul>
+                                    <li><strong>Project:</strong> CodeAlpha Sales Prediction</li>
+                                    <li><strong>Version:</strong> v2.5.0 Enterprise</li>
+                                    <li><strong>Status:</strong> Active Production</li>
+                                </ul>
+                            </div>
+                            <div class="about-card">
+                                <h5><i class="fas fa-code clr-emerald"></i> Technology Stack</h5>
+                                <ul>
+                                    <li><strong>Backend:</strong> Python / Flask API</li>
+                                    <li><strong>Frontend:</strong> HTML5 / Vanilla JS / Premium CSS</li>
+                                    <li><strong>ML Framework:</strong> Scikit-Learn</li>
+                                </ul>
+                            </div>
+                            <div class="about-card">
+                                <h5><i class="fas fa-brain clr-gold"></i> Machine Learning Info</h5>
+                                <ul>
+                                    <li><strong>Model:</strong> Multiple Linear Regression</li>
+                                    <li><strong>Validation:</strong> Train/Test Split (80/20)</li>
+                                    <li><strong>Optimization:</strong> OLS Estimation</li>
+                                </ul>
+                            </div>
+                            <div class="about-card">
+                                <h5><i class="fas fa-database clr-cyan"></i> Dataset Information</h5>
+                                <ul>
+                                    <li><strong>Source:</strong> Advertising Budget ROI Dataset</li>
+                                    <li><strong>Features:</strong> TV, Radio, Newspaper</li>
+                                    <li><strong>Target:</strong> Sales Revenue</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="about-credits mt-4">
+                            <div class="glass-credits-box text-center">
+                                <h5 style="color: #D4AF37; margin-bottom: 20px; font-family: 'Orbitron', sans-serif;">Developer & Professional Credits</h5>
+                                <div class="credits-button-group">
+                                    <button class="premium-credit-btn" id="aboutDevBtn">
+                                        <i class="fas fa-user-astronaut"></i>
+                                        <span>About Developer</span>
+                                    </button>
+                                    <button class="premium-credit-btn" id="settingsAboutProjectBtn">
+                                        <i class="fas fa-project-diagram"></i>
+                                        <span>About Project</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Developer Profile Modal -->
+    <div class="settings-modal-overlay" id="devProfileModal">
+        <div class="dev-profile-container">
+            <!-- Top Right Close Button (Always visible) -->
+            <div class="dev-modal-close-top" id="devModalCloseTop">
+                <i class="fas fa-times"></i>
+            </div>
+            
+            <!-- Cinematic Intro -->
+            <div class="dev-cinematic-intro" id="devCinematicIntro">
+                <div class="startup-content" style="padding-bottom: 0;">
+                    <div class="dev-logo-container">
+                        <!-- existing float and spin animations -->
+                        <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(46, 204, 113, 0.15) 0%, transparent 70%); animation: slowSpinGreen 20s linear infinite;"></div>
+                        <img src="/static/assets/KMA2 Silver Logo.jpeg" alt="KMA2 Logo" class="dev-intro-logo" style="width: 150px; border-radius: 50%; box-shadow: 0 0 50px rgba(46, 204, 113, 0.8); position: relative; z-index: 2; animation: scaleUpFadeInLogo 1.5s ease-out forwards, floatLogoGreen 3s ease-in-out infinite 1.5s; border: 2px solid rgba(46, 204, 113, 0.5); opacity: 0; transform: scale(0.5);">
+                    </div>
+                    <div class="startup-headers">
+                        <h1 class="fade-text delay-0 clr-gold" style="font-family: 'Orbitron', sans-serif; letter-spacing: 2px;">MEET THE INTELLIGENCE ARCHITECT</h1>
+                        <h2 class="fade-text delay-1" style="color: var(--text-main); font-size: 1.8rem; margin-top: 10px;">Mohammed Asjad Aliyan K</h2>
+                        <h3 class="fade-text delay-2" style="margin-top: 5px; font-weight: 400;">
+                            <span class="clr-gold">Founder</span> <span style="color: var(--text-muted); margin: 0 10px;">•</span> 
+                            <span class="clr-emerald">AI Systems Developer</span> <span style="color: var(--text-muted); margin: 0 10px;">•</span> 
+                            <span class="clr-cyan">Creator of the</span> <span class="clr-gold fw-700">KMA² Ecosystem</span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content (Hidden initially) -->
+            <div class="dev-main-content" id="devMainContent">
+                
+                <div class="dev-header-section text-center mb-5">
+                    <h1 class="clr-gold" style="font-family: 'Orbitron', sans-serif; letter-spacing: 2px;">MEET THE INTELLIGENCE ARCHITECT</h1>
+                    <h2 class="dev-name mt-3">Mohammed Asjad Aliyan K</h2>
+                    <p class="dev-subtitle">
+                        <span class="clr-gold">Founder</span> <span style="color: var(--text-muted); margin: 0 10px;">•</span> 
+                        <span class="clr-emerald">AI Systems Developer</span> <span style="color: var(--text-muted); margin: 0 10px;">•</span> 
+                        <span class="clr-cyan">Creator of the</span> <span class="clr-gold fw-700">KMA² Ecosystem</span>
+                    </p>
+                </div>
+
+                <!-- Engineering Vision -->
+                <div class="dev-glass-card mb-4 text-center">
+                    <i class="fas fa-brain dev-card-icon"></i>
+                    <h3 class="clr-gold">Engineering Vision</h3>
+                    <p>Architecting the future of <span class="clr-cyan">Professional Software Engineering</span> through advanced <span class="clr-emerald fw-700">Machine Learning</span> models and high-performance algorithms to empower data-driven decisions and accurate <span class="clr-emerald fw-700">Sales Forecasting</span>.</p>
+                </div>
+
+                <!-- Intelligence Philosophy -->
+                <div class="dev-glass-card mb-4 text-center">
+                    <i class="fas fa-network-wired dev-card-icon"></i>
+                    <h3 class="clr-gold">Intelligence Philosophy</h3>
+                    <p>Creating scalable <span class="clr-cyan">Enterprise Architecture</span> where <span class="clr-emerald fw-700">Artificial Intelligence</span> seamlessly integrates with intuitive <span class="clr-emerald fw-700">Enterprise Analytics</span> and <span class="clr-cyan">Dashboard Engineering</span> to redefine user experiences.</p>
+                </div>
+
+                <!-- Premium Development Standards -->
+                <div class="dev-glass-card mb-5 text-center">
+                    <i class="fas fa-shield-alt dev-card-icon"></i>
+                    <h3 class="clr-gold">Premium Development Standards</h3>
+                    <p>Upholding the rigorous standards of <span class="clr-gold fw-700">KMA² Technologies</span>. Every component is crafted for robustness, security, and exceptional <span class="clr-emerald fw-700">Data Science</span> implementation within real-world applications.</p>
+                </div>
+
+                <!-- Innovation Mindset (Grid of cards) -->
+                <div class="mb-5">
+                    <h3 class="clr-gold mb-4 text-center" style="font-family: 'Orbitron', sans-serif;">Innovation Mindset</h3>
+                    <div class="dev-sections-grid">
+                        <div class="dev-glass-card text-center">
+                            <i class="fas fa-cogs dev-card-icon"></i>
+                            <h4 class="clr-gold" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">Intelligent Sales Engineering</h4>
+                            <p>Deploying <span class="clr-emerald fw-700">Predictive Analytics</span> for robust forecasting.</p>
+                        </div>
+                        <div class="dev-glass-card text-center">
+                            <i class="fas fa-chart-pie dev-card-icon"></i>
+                            <h4 class="clr-gold" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">Predictive Intelligence</h4>
+                            <p>Advanced <span class="clr-emerald fw-700">Statistical Modelling</span> for future trends.</p>
+                        </div>
+                        <div class="dev-glass-card text-center">
+                            <i class="fas fa-briefcase dev-card-icon"></i>
+                            <h4 class="clr-gold" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">AI Business Analytics</h4>
+                            <p>Transforming data with <span class="clr-emerald fw-700">Business Intelligence</span>.</p>
+                        </div>
+                        <div class="dev-glass-card text-center">
+                            <i class="fas fa-sitemap dev-card-icon"></i>
+                            <h4 class="clr-gold" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">Enterprise Architecture</h4>
+                            <p>Building scalable <span class="clr-cyan">AI Engineering</span> systems.</p>
+                        </div>
+                        <div class="dev-glass-card text-center">
+                            <i class="fas fa-desktop dev-card-icon"></i>
+                            <h4 class="clr-gold" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">Premium Dashboard Design</h4>
+                            <p>Creating seamless <span class="clr-cyan">Enterprise Dashboard Engineering</span>.</p>
+                        </div>
+                        <div class="dev-glass-card text-center">
+                            <i class="fas fa-microchip dev-card-icon"></i>
+                            <h4 class="clr-gold" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">Data Science Excellence</h4>
+                            <p>Delivering precision via <span class="clr-emerald fw-700">Data Science</span>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Future Vision (Badges) -->
+                <div class="dev-glass-card mb-5 text-center">
+                    <i class="fas fa-rocket dev-card-icon"></i>
+                    <h3 class="clr-gold mb-4">Future Vision</h3>
+                    <div class="dev-badges-container justify-content-center">
+                        <span class="dev-badge">Artificial Intelligence</span>
+                        <span class="dev-badge">Machine Learning</span>
+                        <span class="dev-badge">Sales Forecasting</span>
+                        <span class="dev-badge">Predictive Analytics</span>
+                        <span class="dev-badge">Data Science</span>
+                        <span class="dev-badge">Business Intelligence</span>
+                        <span class="dev-badge">Enterprise Analytics</span>
+                        <span class="dev-badge">Dashboard Engineering</span>
+                        <span class="dev-badge">Automation</span>
+                        <span class="dev-badge">Cloud Intelligence</span>
+                        <span class="dev-badge clr-gold-bg">KMA² Technologies</span>
+                        <span class="dev-badge clr-gold-bg">KMA² Innovation Labs</span>
+                        <span class="dev-badge clr-gold-bg">KMA² Intelligence Framework</span>
+                        <span class="dev-badge clr-gold-bg">KMA² Signature Series</span>
+                    </div>
+                </div>
+
+                <!-- Project Recognition -->
+                <div class="dev-glass-card mb-5 text-center" style="border: 1px solid rgba(46, 204, 113, 0.4);">
+                    <h3 class="clr-gold"><i class="fas fa-trophy text-warning"></i> Project Recognition</h3>
+                    <p class="text-light" style="line-height: 1.6;">This premium platform successfully demonstrates the practical implementation of modern <span class="clr-emerald fw-700">Predictive Analytics</span>, intuitive UI/UX design, and intelligent <span class="clr-emerald fw-700">Machine Learning</span> models for <span class="clr-emerald fw-700">Sales Forecasting</span>. It stands as a proud addition to the <span class="clr-gold fw-700">K.M.A² Signature Series</span>, powered by the <span class="clr-gold fw-700">K.M.A² Intelligence Framework</span> and developed within the <span class="clr-gold fw-700">K.M.A² Innovation Labs</span>.</p>
+                </div>
+
+                <!-- Closing Quote -->
+                <div class="dev-quote-section text-center mb-5 p-4" style="border-top: 1px solid rgba(46, 204, 113, 0.2); border-bottom: 1px solid rgba(46, 204, 113, 0.2);">
+                    <i class="fas fa-quote-left dev-card-icon mb-3" style="font-size: 2.5rem; opacity: 0.5;"></i>
+                    <p style="font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; color: var(--text-muted); font-style: italic;">
+                        "Transforming raw sales metrics into actionable <span class="clr-emerald fw-700">Enterprise Analytics</span> and <span class="clr-emerald fw-700">Business Intelligence</span> through premium architecture, precise prediction modeling, and uncompromised design."
+                    </p>
+                    <i class="fas fa-quote-right dev-card-icon mt-3" style="font-size: 2.5rem; opacity: 0.5;"></i>
+                </div>
+
+                <!-- Close Button -->
+                <div class="dev-close-container pb-5">
+                    <button class="dev-close-btn" id="closeDevProfileBtn">Close Developer Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About Project Modal -->
+    <div class="settings-modal-overlay" id="aboutProjectModal">
+        <div class="dev-profile-container">
+            <!-- Top Right Close Button (Always visible) -->
+            <div class="dev-modal-close-top" id="aboutProjectCloseTop" onclick="if(window.forceCloseAboutProjectModal) window.forceCloseAboutProjectModal();">
+                <i class="fas fa-times"></i>
+            </div>
+            
+            <!-- Cinematic Intro -->
+            <div class="dev-cinematic-intro" id="aboutProjectCinematicIntro">
+                <div class="startup-content" style="padding-bottom: 0;">
+                    <div class="dev-logo-container">
+                        <!-- existing float and spin animations -->
+                        <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(46, 204, 113, 0.15) 0%, transparent 70%); animation: slowSpinGreen 20s linear infinite;"></div>
+                        <img src="/static/assets/KMA2 Silver Logo.jpeg" alt="KMA2 Logo" class="dev-intro-logo" style="width: 150px; border-radius: 50%; box-shadow: 0 0 50px rgba(46, 204, 113, 0.8); position: relative; z-index: 2; border: 2px solid rgba(46, 204, 113, 0.5); opacity: 0; transform: scale(0.5);">
+                    </div>
+                    <div class="startup-headers">
+                        <h2 class="about-proj-cinematic-text" style="color: #2ecc71; font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; font-weight: 500; letter-spacing: 2px; margin-top: 40px; opacity: 0; transform: translateY(20px); text-shadow: 0 0 15px rgba(46, 204, 113, 0.5);">Exploring the Intelligence Behind the Project...</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content (Hidden initially) -->
+            <div class="dev-main-content" id="aboutProjectMainContent">
+                
+                <div class="dev-header-section text-center mb-5">
+                    <h1 class="clr-gold" style="font-family: 'Orbitron', sans-serif; letter-spacing: 2px; font-size: 2.5rem;">ABOUT THE PROJECT</h1>
+                    <h2 class="dev-name mt-3" style="font-size: 1.8rem;">Sales Prediction Intelligence Platform</h2>
+                    <p class="dev-subtitle mt-3">
+                        <span class="clr-gold">Predictive Analytics</span> <span style="color: var(--text-muted); margin: 0 10px;">•</span> 
+                        <span class="clr-emerald">Machine Learning</span> <span style="color: var(--text-muted); margin: 0 10px;">•</span> 
+                        <span class="clr-cyan">Business Intelligence</span>
+                    </p>
+                    <p class="mt-4" style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
+                        This platform represents a sophisticated approach to <span class="clr-cyan">Sales Forecasting</span> using advanced <span class="clr-emerald fw-700">Machine Learning</span> techniques. It is engineered to transform raw advertising data into actionable <span class="clr-emerald fw-700">Business Intelligence</span>, empowering enterprise-level decision making through real-time <span class="clr-cyan">Predictive Analytics</span>.
+                    </p>
+                </div>
+
+                <!-- System Capabilities (Grid of cards) -->
+                <div class="mb-5">
+                    <h3 class="clr-gold mb-4 text-center" style="font-family: 'Orbitron', sans-serif;">System Capabilities</h3>
+                    <div class="dev-sections-grid">
+                        <div class="dev-glass-card text-center">
+                            <i class="fas fa-chart-line dev-card-icon"></i>
+                            <h4 class="clr-gold" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">Sales Forecasting</h4>
+                            <p>Accurately predicting future <span class="clr-emerald fw-700">Revenue Generation</span> based on historical data.</p>
+                        </div>
+                        <div class="dev-glass-card text-center">
+                            <i class="fas fa-search-dollar dev-card-icon"></i>
+                            <h4 class="clr-gold" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">Revenue Prediction</h4>
+                            <p>Optimizing <span class="clr-emerald fw-700">Budget Allocation</span> for maximum return on investment.</p>
+                        </div>
+                        <div class="dev-glass-card text-center">
+                            <i class="fas fa-chart-bar dev-card-icon"></i>
+                            <h4 class="clr-gold" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">Business Analytics</h4>
+                            <p>Extracting deep <span class="clr-emerald fw-700">Business Insights</span> from complex datasets.</p>
+                        </div>
+                        <div class="dev-glass-card text-center">
+                            <i class="fas fa-tv dev-card-icon"></i>
+                            <h4 class="clr-gold" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">Interactive Dashboard</h4>
+                            <p>Providing seamless <span class="clr-cyan">Enterprise Visualization</span> and real-time interaction.</p>
+                        </div>
+                        <div class="dev-glass-card text-center">
+                            <i class="fas fa-level-up-alt dev-card-icon"></i>
+                            <h4 class="clr-gold" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">Trend Analysis</h4>
+                            <p>Identifying key <span class="clr-cyan">Market Trends</span> and hidden patterns in advertising.</p>
+                        </div>
+                        <div class="dev-glass-card text-center">
+                            <i class="fas fa-brain dev-card-icon"></i>
+                            <h4 class="clr-gold" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">Predictive Intelligence</h4>
+                            <p>Leveraging <span class="clr-emerald fw-700">Statistical Modeling</span> for future-proof strategies.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technology Stack -->
+                <div class="dev-glass-card mb-5 text-center">
+                    <i class="fas fa-laptop-code dev-card-icon"></i>
+                    <h3 class="clr-gold mb-4">Technology Stack</h3>
+                    <div class="dev-badges-container justify-content-center">
+                        <span class="dev-badge">Python</span>
+                        <span class="dev-badge">Pandas</span>
+                        <span class="dev-badge">NumPy</span>
+                        <span class="dev-badge">Matplotlib</span>
+                        <span class="dev-badge">Seaborn</span>
+                        <span class="dev-badge">Scikit-learn</span>
+                        <span class="dev-badge clr-gold-bg">Machine Learning</span>
+                        <span class="dev-badge clr-gold-bg">Data Analytics</span>
+                        <span class="dev-badge clr-gold-bg">Regression Modeling</span>
+                        <span class="dev-badge">Sales Forecasting</span>
+                        <span class="dev-badge">Predictive Analytics</span>
+                        <span class="dev-badge">Interactive Dashboard</span>
+                    </div>
+                </div>
+
+                <!-- Project Recognition -->
+                <div class="dev-glass-card mb-5 text-center" style="border: 1px solid rgba(46, 204, 113, 0.4);">
+                    <h3 class="clr-gold"><i class="fas fa-certificate text-warning"></i> Project Recognition</h3>
+                    <p class="text-light" style="line-height: 1.6;">This robust application is a practical implementation of advanced <span class="clr-emerald fw-700">Predictive Analytics</span> and <span class="clr-emerald fw-700">Machine Learning</span>, developed for the prestigious <span class="clr-gold fw-700">CodeAlpha Internship</span>. It exemplifies <span class="clr-cyan">Professional Software Engineering</span> and robust <span class="clr-cyan">Business Forecasting</span>, forming a vital component of the <span class="clr-gold fw-700">K.M.A² Signature Series</span> under the <span class="clr-gold fw-700">K.M.A² Intelligence Framework</span>.</p>
+                </div>
+
+                <!-- Closing Quote -->
+                <div class="dev-quote-section text-center mb-5 p-4" style="border-top: 1px solid rgba(46, 204, 113, 0.2); border-bottom: 1px solid rgba(46, 204, 113, 0.2);">
+                    <i class="fas fa-quote-left dev-card-icon mb-3" style="font-size: 2.5rem; opacity: 0.5;"></i>
+                    <p style="font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; color: var(--text-muted); font-style: italic;">
+                        "Harnessing the true potential of <span class="clr-emerald fw-700">Data Analytics</span> to illuminate the future of enterprise revenue and strategic market dominance."
+                    </p>
+                    <i class="fas fa-quote-right dev-card-icon mt-3" style="font-size: 2.5rem; opacity: 0.5;"></i>
+                </div>
+
+                <!-- Close Button -->
+                <div class="dev-close-container pb-5 text-center">
+                    <button class="dev-close-btn" id="closeAboutProjectBtn" onclick="if(window.forceCloseAboutProjectModal) window.forceCloseAboutProjectModal();">Close About Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top" title="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Premium Interactive Feedback Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Main JavaScript -->
+    <script src="/static/js/main.js?v=24"></script>
+</body>
+</html>
